@@ -7,9 +7,11 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import tayna.domain.Comentarios;
 import tayna.domain.Post;
 import tayna.domain.Usuario;
 import tayna.domain.enun.TipoDePost;
+import tayna.repositories.ComentarioRepository;
 import tayna.repositories.PostRepository;
 import tayna.repositories.UsuarioRepository;
 
@@ -21,6 +23,9 @@ public class BlogApplication implements CommandLineRunner {
 	
 	@Autowired
 	private PostRepository postRepository;
+	
+	@Autowired
+	private ComentarioRepository comentarioRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(BlogApplication.class, args);
@@ -41,6 +46,10 @@ public class BlogApplication implements CommandLineRunner {
 		us2.getPost(Arrays.asList(post2));
 		
 		postRepository.saveAll((Arrays.asList(post1, post2)));
+		
+		Comentarios com1 = new Comentarios(null, "teste");
+		
+		comentarioRepository.save(com1);
 
 	}
 }
