@@ -9,18 +9,22 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import tayna.repositories.ComentarioRepository;
+
 @Entity
 public class Comentarios implements Serializable {
 	private static final long serialVersionUID = 1L;
-
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	
 	private String conteudo;
 	
-	//@OneToOne @JoinColumn(name ="post_id", referencedColumnName = "id")
-	@ManyToOne @JoinColumn(name="post_id")
+	@ManyToOne @JoinColumn(name = "post_id")
+	//@ManyToOne
 	private Post post;
 	
 	Comentarios(){

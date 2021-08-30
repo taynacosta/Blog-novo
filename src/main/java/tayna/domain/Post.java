@@ -9,8 +9,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import tayna.domain.enun.TipoDePost;
 
@@ -28,7 +31,11 @@ public class Post implements Serializable {
 	@ManyToOne @JoinColumn(name="usuario_id")
 	private Usuario usuario;
 	
-	@OneToMany(mappedBy = "post")
+	//@OneToMany(mappedBy = "post") funciona
+	@JsonIgnore
+	@OneToMany @JoinTable(name = "POST_COMENTARIO",
+			joinColumns = @JoinColumn(name = "post_id"),
+			inverseJoinColumns = @JoinColumn(name = "comentario_id"))
 	private List <Comentarios> comentarios = new ArrayList<>();
 	
 	public Post() {}

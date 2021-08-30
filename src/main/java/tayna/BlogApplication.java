@@ -33,26 +33,29 @@ public class BlogApplication implements CommandLineRunner {
 	}
 	@Override
 	public void run(String... args) throws Exception {
-	
+
 		//post id 
 		Usuario us1 = new Usuario(null, "tayna", 123);
 		Usuario us2 = new Usuario(null, "maria", 555);
-	
-		Post post1 = new Post(null, "linda casa", TipoDePost.FOTO, us1, null);
+		
+		Comentarios com1 = new Comentarios(null, "teste", null);
+		Post post1 = new Post(null, "linda casa", TipoDePost.FOTO, us1, Arrays.asList(com1));
 		Post post2 = new Post(null, "lidgds", TipoDePost.FOTO, us2, null);
 		
 		us1.getPost(Arrays.asList(post1));
 		us2.getPost(Arrays.asList(post2));
 		
-		usuarioRepository.saveAll(Arrays.asList(us1, us2));
-	
-		Comentarios com1 = new Comentarios(null, "teste", post1);
+		
 		post1.getComentarios((Arrays.asList(com1)));
-		com1.getPost(post1);
+		com1.getPost(post1); //? pq n salva
 		
-		
-		postRepository.saveAll((Arrays.asList(post1, post2)));
+		usuarioRepository.saveAll(Arrays.asList(us1, us2));
 		comentarioRepository.save(com1);
+		postRepository.saveAll((Arrays.asList(post1, post2)));
+		
+		
+		
+		
 		
 		
 	}
