@@ -19,6 +19,7 @@ public class Usuario implements Serializable {
 	private Integer id;
 	
 	private String nomeUsuario;
+	
 	private int senha;
 	
 	@OneToMany(mappedBy="usuario")
@@ -63,6 +64,7 @@ public class Usuario implements Serializable {
 	public void setPost(List<Post> post) {
 		this.post = post;
 	}
+
 
 	@Override
 	public int hashCode() {
