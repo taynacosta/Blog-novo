@@ -9,7 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -30,22 +29,17 @@ public class Post implements Serializable {
 	
 	@ManyToOne @JoinColumn(name="usuario_id")
 	private Usuario usuario;
-	
-	//@OneToMany(mappedBy = "post") funciona
-	@JsonIgnore
-	@OneToMany @JoinTable(name = "POST_COMENTARIO",
-			joinColumns = @JoinColumn(name = "post_id"),
-			inverseJoinColumns = @JoinColumn(name = "comentario_id"))
+
+	@JsonIgnore @OneToMany(mappedBy = "post")
 	private List <Comentarios> comentarios = new ArrayList<>();
 	
 	public Post() {}
 
-	public Post(Integer id, String legenda, TipoDePost tipo, Usuario usuario, List<Comentarios> comentarios) {
+	public Post(Integer id, String legenda, TipoDePost tipo, Usuario usuario) {
 		this.id = id;
 		this.legenda = legenda;
 		this.tipo = tipo;
 		this.usuario = usuario;
-		this.comentarios = comentarios;
 	}
 	
 	public Integer getId() {

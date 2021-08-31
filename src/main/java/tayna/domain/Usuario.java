@@ -22,15 +22,18 @@ public class Usuario implements Serializable {
 	
 	private int senha;
 	
+	private String email;
+	
 	@OneToMany(mappedBy="usuario")
 	private List <Post> post = new ArrayList<>();
 
 	public Usuario(){}
 
-	public Usuario(Integer id, String nomeUsuario, int senha) {
+	public Usuario(Integer id, String nomeUsuario, int senha, String email) {
 		this.id = id;
 		this.nomeUsuario = nomeUsuario;
 		this.senha = senha;
+		this.email = email;
 	}
 
 	public Integer getId() {
@@ -55,6 +58,13 @@ public class Usuario implements Serializable {
 
 	public void setSenha(int senha) {
 		this.senha = senha;
+	}
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public List<Post> getPost(List<Post> list) {
