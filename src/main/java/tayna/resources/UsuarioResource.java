@@ -1,6 +1,8 @@
 package tayna.resources;
 
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -24,6 +26,14 @@ public class UsuarioResource {
 	
 	@Autowired
 	private UsuarioService service;
+	
+	@RequestMapping(method = RequestMethod.GET)
+	public ResponseEntity<List<UsuarioDTO>> findAll(Integer id) {
+		List<Usuario> list = service.findAll();
+		List<UsuarioDTO> listDto = list.stream().map(obj -> new UsuarioDTO(
+				obj.getId(), obj.getNomeUsuario(), obj.getSenha(), obj.getEmail())).collect(Collectors.toList()); 
+		return ResponseEntity.ok().body(listDto);
+	}
 
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	public ResponseEntity<?> find(@PathVariable Integer id) {
