@@ -39,4 +39,10 @@ public class UsuarioService {
 	public List<Usuario> findAll() {
 		return repo.findAll();
 	}
+
+	public Usuario save(Usuario usuario) {
+		return repo.save(usuario);
+		
+	}
+
 }

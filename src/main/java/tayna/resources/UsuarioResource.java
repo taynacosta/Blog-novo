@@ -48,4 +48,16 @@ public class UsuarioResource {
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<Object> putUsuario(@PathVariable Integer id, @RequestBody UsuarioDTO usuarioDTO) {
+	    Usuario usuario = new Usuario();
+	    usuario.setId(id);
+	    usuario.setNomeUsuario(usuarioDTO.getNomeUsuario());
+	    usuario.setEmail(usuarioDTO.getEmail());
+	    usuario.setSenha(usuarioDTO.getSenha());
+	    service.save(usuario);
+	    return ResponseEntity.noContent().build();
+	}
+
 }
