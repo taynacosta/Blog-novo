@@ -60,4 +60,5 @@ public class UsuarioResource {
 	    return ResponseEntity.noContent().build();
 	}
 
+	//fazer o delete 
 }

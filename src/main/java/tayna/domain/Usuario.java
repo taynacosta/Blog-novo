@@ -24,6 +24,7 @@ public class Usuario implements Serializable {
 	
 	private String email;
 	
+	//@OneToMany(mappedBy="usuario")
 	@OneToMany(mappedBy="usuario")
 	private List <Post> post = new ArrayList<>();
 
