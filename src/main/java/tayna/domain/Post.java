@@ -27,11 +27,9 @@ public class Post implements Serializable {
 	private String legenda;
 	private TipoDePost tipo;
 	
-	//@ManyToOne @JoinColumn(name="usuario_id")
 	@ManyToOne @JoinColumn(name="usuario_id")
 	private Usuario usuario;
 
-	//@JsonIgnore @OneToMany(mappedBy = "post")
 	@JsonIgnore @OneToMany(mappedBy = "post")
 	private List <Comentarios> comentarios = new ArrayList<>();
 	
