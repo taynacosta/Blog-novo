@@ -3,10 +3,14 @@ package tayna.services;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import tayna.domain.Post;
+import tayna.dto.PostDTO;
 import tayna.repositories.PostRepository;
 
 
@@ -24,4 +28,19 @@ public class PostService {
 	public List<Post> findAll() {
 		return repo.findAll();
 	}
+	
+	@Transactional
+	public Post insert(Post obj) {
+		obj.setId(null);
+		//obj.getTipo();
+		obj.setLegenda(obj.getLegenda());
+		//PostRepository.save(obj.getLegenda());
+		obj = repo.save(obj);
+		return obj;
+	}
+
+	public Post fromDTO(@Valid PostDTO objDTO , Post obj) {
+		return new Post(null, objDTO.getLegenda(), obj.getTipo(), null);
+	}
+
 }

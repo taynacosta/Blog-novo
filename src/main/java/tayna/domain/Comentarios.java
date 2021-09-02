@@ -19,7 +19,6 @@ public class Comentarios implements Serializable {
 	
 	private String conteudo;
 	
-	//@ManyToOne @JoinColumn(name = "post_id")
 	@ManyToOne @JoinColumn(name = "post_id")
 	private Post post;
 	

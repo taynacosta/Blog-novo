@@ -62,7 +62,6 @@ public class Post implements Serializable {
 		return tipo;
 	}
 
-
 	public void setTipo(TipoDePost tipo) {
 		this.tipo = tipo;
 	}
