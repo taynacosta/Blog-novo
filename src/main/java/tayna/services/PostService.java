@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import tayna.domain.Post;
-import tayna.domain.enun.TipoDePost;
 import tayna.dto.PostDTO;
 import tayna.repositories.PostRepository;
 
@@ -44,7 +43,18 @@ public class PostService {
 
 	public Post fromDTO(@Valid PostDTO objDTO , Post obj) {
 			return new Post(null, objDTO.getLegenda(), obj.getTipo(), null);
-
 	}
+
+	public Post save(Post post) {
+		return repo.save(post);
+		
+	}
+
+	public void delete(Integer id) {
+		find(id);
+		repo.deleteById(id);
+	}
+
+
 
 }
