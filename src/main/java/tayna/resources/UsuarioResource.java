@@ -60,5 +60,9 @@ public class UsuarioResource {
 	    return ResponseEntity.noContent().build();
 	}
 
-	//fazer o delete 
+	@RequestMapping(value ="/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<Void> delete(@PathVariable Integer id){
+		 service.delete(id);
+		return ResponseEntity.noContent().build();
+	}
 }

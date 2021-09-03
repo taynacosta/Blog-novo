@@ -45,4 +45,9 @@ public class UsuarioService {
 		
 	}
 
+		public void delete(Integer id) {
+		find(id);
+		repo.deleteById(id);
+	}
+
 }

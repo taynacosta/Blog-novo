@@ -55,6 +55,4 @@ public class PostService {
 		repo.deleteById(id);
 	}
 
-
-
 }
