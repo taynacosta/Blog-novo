@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import tayna.domain.Comentarios;
+import tayna.domain.enun.TipoDePost;
 
 public class PostDTO implements Serializable{
 	private static final long serialVersionUID = 1L;
@@ -15,12 +16,15 @@ public class PostDTO implements Serializable{
 	
 	private List <Comentarios> comentarios = new ArrayList<>();
 	
+	private TipoDePost tipo;
+	
 	public PostDTO() {}
 
-	public PostDTO(Integer id, String legenda, List<Comentarios> comentarios) {
+	public PostDTO(Integer id, String legenda, List<Comentarios> comentarios, TipoDePost tipo) {
 		this.id = id;
 		this.legenda = legenda;
 		this.comentarios = comentarios;
+		this.setTipo(tipo);
 	}
 
 	public Integer getId() {
@@ -45,6 +49,14 @@ public class PostDTO implements Serializable{
 
 	public void setComentarios(List<Comentarios> comentarios) {
 		this.comentarios = comentarios;
+	}
+
+	public TipoDePost getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(TipoDePost tipo) {
+		this.tipo = tipo;
 	}
 	
 }

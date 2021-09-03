@@ -30,7 +30,7 @@ public class PostResource {
 	public ResponseEntity<?> find(@PathVariable Integer id) {
 		Post obj = service.find(id);
 		PostDTO objVolta = new PostDTO(
-				obj.getId(), obj.getLegenda(), obj.getComentarios(null));
+				obj.getId(), obj.getLegenda(), obj.getComentarios(null), obj.getTipo());
 		return ResponseEntity.ok().body(objVolta);
 }
 	
@@ -38,7 +38,7 @@ public class PostResource {
 	public ResponseEntity<List<PostDTO>> findAll(Integer id) {
 		List<Post> list = service.findAll();
 		List<PostDTO> listDto = list.stream().map(obj -> new PostDTO(
-				obj.getId(), obj.getLegenda(), obj.getComentarios(null))).collect(Collectors.toList()); 
+				obj.getId(), obj.getLegenda(), obj.getComentarios(null), obj.getTipo())).collect(Collectors.toList()); 
 		return ResponseEntity.ok().body(listDto);
 }
 	

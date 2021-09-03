@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import tayna.domain.Post;
+import tayna.domain.enun.TipoDePost;
 import tayna.dto.PostDTO;
 import tayna.repositories.PostRepository;
 
@@ -32,15 +33,18 @@ public class PostService {
 	@Transactional
 	public Post insert(Post obj) {
 		obj.setId(null);
-		//obj.getTipo();
-		obj.setLegenda(obj.getLegenda());
-		//PostRepository.save(obj.getLegenda());
+		if(obj.isNullOrNotEmpty(obj.getLegenda())) {
+			throw new IllegalArgumentException ("faltou a legenda");
+		}
+		// validacao de tipo de post e usuario aqui
 		obj = repo.save(obj);
-		return obj;
+		return obj;	
+		
 	}
 
 	public Post fromDTO(@Valid PostDTO objDTO , Post obj) {
-		return new Post(null, objDTO.getLegenda(), obj.getTipo(), null);
+			return new Post(null, objDTO.getLegenda(), obj.getTipo(), null);
+
 	}
 
 }

@@ -103,5 +103,9 @@ public class Post implements Serializable {
 			return false;
 		return true;
 	}
+
+		public boolean isNullOrNotEmpty(String s) {
+		return s == null || s.isEmpty();
+	}
 	
 }
