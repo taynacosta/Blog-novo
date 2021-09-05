@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+
 import tayna.domain.Comentarios;
 import tayna.domain.enun.TipoDePost;
 
@@ -16,6 +18,7 @@ public class PostDTO implements Serializable{
 	
 	private List <Comentarios> comentarios = new ArrayList<>();
 	
+	@NotNull(message="O campo tipo é de preenchimento obrigatório")
 	private TipoDePost tipo;
 	
 	public PostDTO() {}

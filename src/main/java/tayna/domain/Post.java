@@ -75,7 +75,7 @@ public class Post implements Serializable {
 		this.usuario = usuario;
 	}
 	
-	public List<Comentarios> getComentarios(List<Comentarios> list) {
+	public List<Comentarios> getComentarios() {
 		return comentarios;
 	}
 

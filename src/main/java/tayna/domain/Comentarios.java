@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Comentarios implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -20,17 +22,19 @@ public class Comentarios implements Serializable {
 	private String conteudo;
 	
 	@ManyToOne @JoinColumn(name = "post_id")
+	@JsonIgnore
 	private Post post;
-	
-	Comentarios(){
+		
+	public Comentarios(){
 	}
-
+	
 	public Comentarios(Integer id, String conteudo, Post post) {
 		this.id = id;
 		this.conteudo = conteudo;
 		this.post = post;
 	}
 
+		
 	public Integer getId() {
 		return id;
 	}
@@ -47,7 +51,7 @@ public class Comentarios implements Serializable {
 		this.conteudo = conteudo;
 	}
 
-	public Post getPost(Post post) {
+	public Post getPost() {
 		return post;
 	}
 

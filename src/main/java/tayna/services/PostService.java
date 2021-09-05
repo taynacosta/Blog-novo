@@ -7,6 +7,9 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import tayna.domain.Post;
@@ -42,7 +45,7 @@ public class PostService {
 	}
 
 	public Post fromDTO(@Valid PostDTO objDTO , Post obj) {
-			return new Post(null, objDTO.getLegenda(), obj.getTipo(), null);
+			return new Post(null, objDTO.getLegenda(), objDTO.getTipo(), null);
 	}
 
 	public Post save(Post post) {
@@ -55,4 +58,8 @@ public class PostService {
 		repo.deleteById(id);
 	}
 
+	public Page<Post> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		return repo.findAll(pageRequest);
+}
 }

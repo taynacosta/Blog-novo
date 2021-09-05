@@ -8,6 +8,8 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
+import tayna.domain.Usuario;
+
 public class UsuarioDTO  implements Serializable{
 	private static final long serialVersionUID = 1L;
 
@@ -22,7 +24,7 @@ public class UsuarioDTO  implements Serializable{
 	@Email @NotNull(message="O campo email é de preenchimento obrigatório")
 	private String email;
 	
-	public UsuarioDTO() {
+	public UsuarioDTO(Usuario obj) {
 		
 	}
 
