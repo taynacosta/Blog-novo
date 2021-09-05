@@ -21,12 +21,10 @@ public class ComentarioDTO implements Serializable {
 	}
 	
 	public ComentarioDTO(Integer id, String conteudo, Integer postId) {
-		super();
 		this.id = id;
 		this.conteudo = conteudo;
 		this.postId = postId;
 	}
-
 	public Integer getId() {
 		return id;
 	}

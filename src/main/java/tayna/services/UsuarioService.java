@@ -1,6 +1,5 @@
 package tayna.services;
 
-import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -37,10 +36,6 @@ public class UsuarioService {
 		obj = repo.save(obj);
 		return obj;
 	
-	}
-
-	public List<Usuario> findAll() {
-		return repo.findAll();
 	}
 
 	public Usuario save(Usuario usuario) {

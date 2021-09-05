@@ -1,8 +1,6 @@
 package tayna.resources;
 
 import java.net.URI;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -29,19 +27,17 @@ public class UsuarioResource {
 	@Autowired
 	private UsuarioService service;
 	
-	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<List<UsuarioDTO>> findAll(Integer id) {
-		List<Usuario> list = service.findAll();
-		List<UsuarioDTO> listDto = list.stream().map(obj -> new UsuarioDTO(
-				obj.getId(), obj.getNomeUsuario(), obj.getSenha(), obj.getEmail())).collect(Collectors.toList()); 
+	@RequestMapping(value="/page", method=RequestMethod.GET)
+	public ResponseEntity<Page<UsuarioDTO>> findPage(
+			@RequestParam(value="page", defaultValue="0") Integer page, 
+			@RequestParam(value="linesPerPage", defaultValue="24") Integer linesPerPage, 
+			@RequestParam(value="nomeUsuario", defaultValue="id") String nomeUsuario, 
+			@RequestParam(value="direction", defaultValue="ASC") String direction) {
+		Page<Usuario> list = service.findPage(page, linesPerPage, nomeUsuario, direction);
+		Page<UsuarioDTO> listDto = list.map(obj -> new UsuarioDTO(obj.getId(), obj.getNomeUsuario(), obj.getSenha(), obj.getEmail()));  
 		return ResponseEntity.ok().body(listDto);
+		//http://localhost:8080/usuarios/page?linesPerPage=3&page=0&direction=DESC
 	}
-
-	@RequestMapping(value="/{id}", method=RequestMethod.GET)
-	public ResponseEntity<?> find(@PathVariable Integer id) {
-		Usuario obj = service.find(id);
-		return ResponseEntity.ok().body(obj);
-}
 	
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Void> insert(@Valid @RequestBody UsuarioDTO objDTO){
@@ -68,15 +64,4 @@ public class UsuarioResource {
 		return ResponseEntity.noContent().build();
 	}
 	
-	@RequestMapping(value="/page", method=RequestMethod.GET)
-	public ResponseEntity<Page<UsuarioDTO>> findPage(
-			@RequestParam(value="page", defaultValue="0") Integer page, 
-			@RequestParam(value="linesPerPage", defaultValue="24") Integer linesPerPage, 
-			@RequestParam(value="nomeUsuario", defaultValue="id") String nomeUsuario, 
-			@RequestParam(value="direction", defaultValue="ASC") String direction) {
-		Page<Usuario> list = service.findPage(page, linesPerPage, nomeUsuario, direction);
-		Page<UsuarioDTO> listDto = list.map(obj -> new UsuarioDTO(obj.getId(), obj.getNomeUsuario(), obj.getSenha(), obj.getEmail()));  
-		return ResponseEntity.ok().body(listDto);
-		//http://localhost:8080/usuarios/page?linesPerPage=3&page=0&direction=DESC
-	}
 }
