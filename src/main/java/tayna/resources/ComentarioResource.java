@@ -1,16 +1,21 @@
 package tayna.resources;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import tayna.domain.Comentarios;
 import tayna.domain.Post;
 import tayna.dto.ComentarioDTO;
+import tayna.repositories.ComentarioRepository;
 import tayna.services.ComentarioService;
 
 @RestController
@@ -20,20 +25,24 @@ public class ComentarioResource {
 	@Autowired
 	private ComentarioService service;
 	Post post = new Post();
-
+	ComentarioRepository repository;
 	
-	@RequestMapping(value="/page", method=RequestMethod.GET)
-	public ResponseEntity<Page<ComentarioDTO>> findPage(
-			@RequestParam(value="page", defaultValue="0") Integer page, 
-			@RequestParam(value="linesPerPage", defaultValue="24") Integer linesPerPage, 
-			@RequestParam(value="nomeUsuario", defaultValue="id") String nomeUsuario, 
-			@RequestParam(value="direction", defaultValue="ASC") String direction) {
-		Page<Comentarios> list = service.findPage(page, linesPerPage, nomeUsuario, direction);
-		Page<ComentarioDTO> listDto = list.map(obj -> new ComentarioDTO(obj.getId(), obj.getConteudo(), obj.getPost().getId()));  
-		return ResponseEntity.ok().body(listDto);
-		//http://localhost:8080/comentarios/page?linesPerPage=3&page=0&direction=DESC
+	@Transactional(readOnly = true)
+	public Page<ComentarioDTO> findAll(Pageable pageable){
+		repository.findAll();
+		Page<Comentarios> result = repository.findAll(pageable);
+		return result.map(x -> new ComentarioDTO(x));
+		//http://localhost:8080/comentarios?page=1
 	}
 
-	//fazer o post comentario aqui
+	//fazer o post e comentario aqui
 
+	@RequestMapping(method = RequestMethod.GET)
+	public ResponseEntity<List<ComentarioDTO>> findAll(Integer id) {
+		List<Comentarios> list = service.findAll();
+		List <ComentarioDTO> listDto = list.stream().map(obj -> new ComentarioDTO(obj.getId(), obj.getConteudo(),
+				obj.getPost().getId())).collect(Collectors.toList()); 
+		return ResponseEntity.ok().body(listDto);
+		
+}
 }

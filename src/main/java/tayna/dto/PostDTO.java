@@ -7,6 +7,7 @@ import java.util.List;
 import javax.validation.constraints.NotNull;
 
 import tayna.domain.Comentarios;
+import tayna.domain.Post;
 import tayna.domain.enun.TipoDePost;
 
 public class PostDTO implements Serializable{
@@ -27,6 +28,13 @@ public class PostDTO implements Serializable{
 		this.id = id;
 		this.legenda = legenda;
 		this.comentarios = comentarios;
+		this.setTipo(tipo);
+	}
+	
+	public PostDTO(Post entity) {
+		this.id = entity.getId();
+		this.legenda = entity.getLegenda();
+		this.comentarios = entity.getComentarios();
 		this.setTipo(tipo);
 	}
 

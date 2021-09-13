@@ -6,6 +6,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import tayna.domain.Comentarios;
+
 public class ComentarioDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
@@ -17,14 +19,20 @@ public class ComentarioDTO implements Serializable {
 	
 	private Integer postId;
 	
-	public ComentarioDTO(){
-	}
+	Comentarios comentario = new Comentarios();
 	
 	public ComentarioDTO(Integer id, String conteudo, Integer postId) {
 		this.id = id;
 		this.conteudo = conteudo;
 		this.postId = postId;
 	}
+	
+	public ComentarioDTO(Comentarios comentario) {
+		this.id = comentario.getId();
+		this.conteudo = comentario.getConteudo();
+		this.postId = comentario.getPostIdDTO();
+	}
+	
 	public Integer getId() {
 		return id;
 	}

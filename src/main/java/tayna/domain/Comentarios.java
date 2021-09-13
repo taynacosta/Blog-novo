@@ -30,12 +30,12 @@ public class Comentarios implements Serializable {
 	public Comentarios(){
 	}
 	
-	public Comentarios(Integer id, String conteudo, Post post, Integer postIdDTO) {
+	/*public Comentarios(Integer id, String conteudo, Post post, Integer postIdDTO) {
 		this.id = id;
 		this.conteudo = conteudo;
 		this.post = post;
 		this.postIdDTO = postIdDTO;
-	}
+	}*/
 		
 	public Comentarios(Integer id, String conteudo, Integer postIdDTO) {
 		this.id = id;
@@ -65,14 +65,14 @@ public class Comentarios implements Serializable {
 
 	public void setPost(Post post) {
 		this.post = post;
-	}
+	}	
 
-	public Integer getPostId() {
+	public Integer getPostIdDTO() {
 		return postIdDTO;
 	}
 
-	public void setPostId(Integer postId) {
-		this.postIdDTO = postId;
+	public void setPostIdDTO(Integer postIdDTO) {
+		this.postIdDTO = postIdDTO;
 	}
 
 	@Override
