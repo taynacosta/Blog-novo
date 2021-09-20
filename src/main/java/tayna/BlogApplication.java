@@ -7,7 +7,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import tayna.domain.Comentarios;
+import tayna.domain.Comentario;
 import tayna.domain.Post;
 import tayna.domain.Usuario;
 import tayna.domain.enun.TipoDePost;
@@ -50,14 +50,14 @@ public class BlogApplication implements CommandLineRunner {
 	
 		postRepository.saveAll((Arrays.asList(post1, post2, post3, post4, post5)));
 		
-		Comentarios com1 = new Comentarios(null, "teste", null);
-		Comentarios com2 = new Comentarios(null, "teste", null);
-		Comentarios com3 = new Comentarios(null, "teste", null);
-		Comentarios com4 = new Comentarios(null, "teste", null);
-		Comentarios com5 = new Comentarios(null, "teste", null);
-		Comentarios com6 = new Comentarios(null, "teste", null);
-		Comentarios com7 = new Comentarios(null, "teste", null);
-		Comentarios com8 = new Comentarios(null, "teste", null);
+		Comentario com1 = new Comentario(null, "teste", null);
+		Comentario com2 = new Comentario(null, "teste", null);
+		Comentario com3 = new Comentario(null, "teste", null);
+		Comentario com4 = new Comentario(null, "teste", null);
+		Comentario com5 = new Comentario(null, "teste", null);
+		Comentario com6 = new Comentario(null, "teste", null);
+		Comentario com7 = new Comentario(null, "teste", null);
+		Comentario com8 = new Comentario(null, "teste", null);
 		
 		com1.setPost(post1);
 		com2.setPost(post2);

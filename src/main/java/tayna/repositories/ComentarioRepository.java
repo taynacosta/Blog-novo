@@ -2,8 +2,8 @@ package tayna.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import tayna.domain.Comentarios;
+import tayna.domain.Comentario;
 
-public interface ComentarioRepository extends JpaRepository<Comentarios, Integer>{
+public interface ComentarioRepository extends JpaRepository<Comentario, Integer>{
 
 }

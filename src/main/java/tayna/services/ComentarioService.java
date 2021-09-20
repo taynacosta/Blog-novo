@@ -3,17 +3,16 @@ package tayna.services;
 import java.util.List;
 import java.util.Optional;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
-import tayna.domain.Comentarios;
+import tayna.domain.Comentario;
 import tayna.dto.ComentarioDTO;
 import tayna.repositories.ComentarioRepository;
+import tayna.repositories.PostRepository;
 import tayna.services.exceptions.ObjectNotFoundException;
 
 
@@ -21,25 +20,37 @@ import tayna.services.exceptions.ObjectNotFoundException;
 public class ComentarioService {
 
 	@Autowired
-	private ComentarioRepository repo;
+	private ComentarioRepository comentarioRepository;
+	
+	@Autowired
+	private PostRepository postRepository;
 
-	public Page<Comentarios> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+	public Page<Comentario> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
 			PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
-			return repo.findAll(pageRequest);
+			return comentarioRepository.findAll(pageRequest);
 		}
 
-	public List<Comentarios> findAll() {
-		return repo.findAll();
+	public List<Comentario> findAll() {
+		return comentarioRepository.findAll();
 	}
 	
-	public Comentarios find(Integer id) {
-		Optional<Comentarios> obj = repo.findById(id);
+	public Comentario find(Integer id) {
+		Optional<Comentario> obj = comentarioRepository.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
-				"Objeto não encontrado! Id: " + id + ", Tipo: " + Comentarios.class.getName()));
+				"Objeto não encontrado! Id: " + id + ", Tipo: " + Comentario.class.getName()));
 	}
 
-	public Comentarios fromDTO(@Valid ComentarioDTO comentarioDTO, Comentarios comentario) {
-		return new Comentarios(null, comentarioDTO.getConteudo(), comentarioDTO.getPostId());
+	/*public Comentario fromDTO(@Valid ComentarioDTO comentarioDTO) {
+		return new Comentario(null, comentarioDTO.getConteudo(), comentarioDTO.getPost(), comentarioDTO.getPostId());
+	}*/
+
+	public ComentarioDTO insert(ComentarioDTO comentarioDto) {
+		var postOptional = postRepository.findById(comentarioDto.getPostId());
+		var post = postOptional.orElseThrow(()->new IllegalArgumentException("Post invalido"));
+		var comentario = comentarioDto.to(post);
+		comentarioRepository.save(comentario);
+		return ComentarioDTO.from(comentario);
+
 	}
 
 }

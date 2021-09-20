@@ -12,7 +12,7 @@ import javax.persistence.ManyToOne;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class Comentarios implements Serializable {
+public class Comentario implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
@@ -24,24 +24,16 @@ public class Comentarios implements Serializable {
 	@ManyToOne @JoinColumn(name = "post_id")
 	@JsonIgnore
 	private Post post;
-		
-	private Integer postIdDTO;
-	
-	public Comentarios(){
+			
+	public Comentario(){
 	}
 	
-	/*public Comentarios(Integer id, String conteudo, Post post, Integer postIdDTO) {
+	public Comentario(Integer id, String conteudo, Post post) {
 		this.id = id;
 		this.conteudo = conteudo;
 		this.post = post;
-		this.postIdDTO = postIdDTO;
-	}*/
-		
-	public Comentarios(Integer id, String conteudo, Integer postIdDTO) {
-		this.id = id;
-		this.conteudo = conteudo;
-		this.postIdDTO = postIdDTO;
 	}
+		
 
 	public Integer getId() {
 		return id;
@@ -67,14 +59,6 @@ public class Comentarios implements Serializable {
 		this.post = post;
 	}	
 
-	public Integer getPostIdDTO() {
-		return postIdDTO;
-	}
-
-	public void setPostIdDTO(Integer postIdDTO) {
-		this.postIdDTO = postIdDTO;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -91,7 +75,7 @@ public class Comentarios implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Comentarios other = (Comentarios) obj;
+		Comentario other = (Comentario) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

@@ -32,7 +32,7 @@ public class Post implements Serializable {
 	private Usuario usuario;
 
 	@JsonIgnore @OneToMany(cascade = CascadeType.ALL,mappedBy = "post")
-	private List <Comentarios> comentarios = new ArrayList<>();
+	private List <Comentario> comentarios = new ArrayList<>();
 	
 	public Post() {}
 
@@ -75,11 +75,11 @@ public class Post implements Serializable {
 		this.usuario = usuario;
 	}
 	
-	public List<Comentarios> getComentarios() {
+	public List<Comentario> getComentarios() {
 		return comentarios;
 	}
 
-	public void setComentarios(List<Comentarios> comentarios) {
+	public void setComentarios(List<Comentario> comentarios) {
 		this.comentarios = comentarios;
 	}
 

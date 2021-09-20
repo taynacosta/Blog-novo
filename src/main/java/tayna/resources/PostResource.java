@@ -9,7 +9,11 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,21 +32,12 @@ public class PostResource {
 	@Autowired
 	private PostService service;
 
-	@RequestMapping(value="/{id}", method=RequestMethod.GET)
+	@GetMapping("{id}")
 	public ResponseEntity<?> find(@PathVariable Integer id) {
-		Post obj = service.find(id);
-		PostDTO objVolta = new PostDTO(
-				obj.getId(), obj.getLegenda(), obj.getComentarios(), obj.getTipo());
-		return ResponseEntity.ok().body(objVolta);
+		var postDto= service.find(id);
+		return ResponseEntity.ok().body(postDto);
 }
 	
-	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<List<PostDTO>> findAll(Integer id) {
-		List<Post> list = service.findAll();
-		List<PostDTO> listDto = list.stream().map(obj -> new PostDTO(
-				obj.getId(), obj.getLegenda(), obj.getComentarios(), obj.getTipo())).collect(Collectors.toList()); 
-		return ResponseEntity.ok().body(listDto);
-}
 	@RequestMapping(value="/page", method=RequestMethod.GET)
 	public ResponseEntity<Page<PostDTO>> findPage(
 			@RequestParam(value="page", defaultValue="0") Integer page, 
@@ -51,24 +46,23 @@ public class PostResource {
 			@RequestParam(value="direction", defaultValue="ASC") String direction) {
 		Page<Post> list = service.findPage(page, linesPerPage, orderBy, direction);
 		Page<PostDTO> listDto = list.map(obj -> new PostDTO(
-				obj.getId(), obj.getLegenda(), obj.getComentarios(), obj.getTipo())); 
+				obj.getId(), obj.getLegenda(), obj.getComentarios(), obj.getTipo(), obj.getUsuario().getId())); 
+		// TODO DESAFIO
 		return ResponseEntity.ok().body(listDto);
+		//http://localhost:8080/posts/page?linesPerPage=3&page=0&direction=DESC
 	}
 	
-	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> insert(@Valid @RequestBody PostDTO objDTO, Post obj){
-		obj = service.fromDTO(objDTO, obj);
-		obj = service.insert(obj);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+	@PostMapping
+	public ResponseEntity<?> insert(@Valid @RequestBody PostDTO postDTO){
+		var postDto = service.insert(postDTO);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(postDto.getId()).toUri();
 		return ResponseEntity.created(uri).build();
+		//validacao do tipo de post
 	}
 	
-	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	@PutMapping("{id}")
 	public ResponseEntity<Object> putPost(@PathVariable Integer id, @RequestBody PostDTO postDTO) {
-	    Post post = new Post();
-	   post.setId(id);
-	    post.setLegenda(postDTO.getLegenda());
-	    service.save(post);
+		// TODO DESAFIO
 	    return ResponseEntity.noContent().build();
 	}
 	
