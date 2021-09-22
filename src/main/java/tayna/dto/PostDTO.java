@@ -23,7 +23,7 @@ public class PostDTO implements Serializable{
 	
 	private List <Comentario> comentarios = new ArrayList<>();
 	
-	@NotNull(message="O campo tipo é de preenchimento obrigatório")
+	@NotNull(message="O campo tipo é de preenchimento obrigatório") 
 	private TipoDePost tipo;
 	
 	@NotNull
@@ -39,13 +39,12 @@ public class PostDTO implements Serializable{
 		this.usuarioId = usuarioId;
 	}
 	
-	private PostDTO(Post entity) {
+	public PostDTO(Post entity) {
 		this.id = entity.getId();
 		this.legenda = entity.getLegenda();
 		this.comentarios = entity.getComentarios();
 		this.tipo = entity.getTipo();
 	}
-	
 
 	public static PostDTO from(Post post) {
 		return new PostDTO(post);
@@ -53,6 +52,7 @@ public class PostDTO implements Serializable{
 	
 	public Post to(Usuario usuario) {
 		return new Post(this.id,this.legenda,this.tipo, usuario);
+	
 	}
 	
 	public static List<PostDTO> fromList(List<Post> posts) {

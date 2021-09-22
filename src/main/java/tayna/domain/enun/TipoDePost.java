@@ -1,5 +1,7 @@
 package tayna.domain.enun;
 
+import tayna.services.exceptions.ObjectNotFoundException;
+
 public enum TipoDePost {
 
 	TEXTO(1, "Publicação Texto"),
@@ -7,6 +9,7 @@ public enum TipoDePost {
 	FOTO(3, "Publicação Foto");
 	
 	private int cod;
+	
 	private String descricao;
 	
 	private TipoDePost(int cod, String descricao) {
@@ -32,4 +35,12 @@ public enum TipoDePost {
 		
 		throw new IllegalArgumentException("Id inválido: " + cod);
 	}
+
+	public boolean isNotValid(TipoDePost tipo) {
+		 if (tipo == null) {
+		      throw new ObjectNotFoundException("Tipo de post invalido");
+		    }
+		 return false;
+	}
+
 }

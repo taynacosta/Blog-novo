@@ -43,4 +43,5 @@ public class PostService {
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		return postRepository.findAll(pageRequest);
 	}
+	
 }

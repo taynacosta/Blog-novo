@@ -50,7 +50,6 @@ public class ComentarioService {
 		var comentario = comentarioDto.to(post);
 		comentarioRepository.save(comentario);
 		return ComentarioDTO.from(comentario);
-
 	}
 
 }
