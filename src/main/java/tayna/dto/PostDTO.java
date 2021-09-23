@@ -57,7 +57,6 @@ public class PostDTO implements Serializable{
 	
 	public static List<PostDTO> fromList(List<Post> posts) {
 		return posts.stream().map(PostDTO::from).collect(Collectors.toList());
-		//return posts.stream().map(post->from(post)).collect(Collectors.toList());
 	}
 
 	public Integer getId() {

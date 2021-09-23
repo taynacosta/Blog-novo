@@ -35,21 +35,12 @@ public class UsuarioService {
 		obj.setId(null);
 		obj = repo.save(obj);
 		return obj;
-	
 	}
 
 	public Usuario save(Usuario usuario) {
-		return repo.save(usuario);
-		
-	}/*private void updateDate(Cliente newObj, Cliente obj) {
-		newObj.setNome(obj.getNome());
-		newObj.setEmail(obj.getEmail());
+		return repo.save(usuario);	
 	}
-	public Cliente update(Cliente obj) {
-		Cliente newObj = find(obj.getId());
-		updateDate(newObj, obj);
-		return repo.save(newObj);
-	}*/
+	
 	private void updateDate(Usuario usuario, Usuario novoUsuario) {
 			usuario.setId(novoUsuario.getId());
 		    usuario.setNomeUsuario(novoUsuario.getNomeUsuario());

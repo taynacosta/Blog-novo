@@ -11,7 +11,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -57,5 +60,16 @@ public class ComentarioResource {
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(comentarioDto.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
-	// put e delete
+	@PutMapping("{id}")
+	public ResponseEntity<Object> put(@PathVariable Integer id, @RequestBody ComentarioDTO comentarioDTO) {
+	    Comentario comentario = service.fromDTO(comentarioDTO);
+	    comentario.setId(id);
+	    service.update(comentario);
+	    return ResponseEntity.noContent().build();
+	}
+	@DeleteMapping("{id}")
+	public ResponseEntity<Void> delete(@PathVariable Integer id){
+		 service.delete(id);
+		return ResponseEntity.noContent().build();
+	}
 }

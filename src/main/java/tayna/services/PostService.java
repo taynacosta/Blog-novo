@@ -1,5 +1,7 @@
 package tayna.services;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,10 +22,14 @@ public class PostService {
 	@Autowired
 	UsuarioRepository usuarioRepository;
 
-	public PostDTO find(Integer id) {
+	public PostDTO findDTO(Integer id) {
 		var postOptional = postRepository.findById(id);
 		var post = postOptional.orElseThrow(() -> new IllegalArgumentException("O post nao foi encontrado"));
 		return PostDTO.from(post);
+	}
+	public Post find(Integer id) {
+		Optional<Post> obj = postRepository.findById(id);
+		return obj.orElseThrow(() -> new IllegalArgumentException("Objeto não encontrado! Id: " + id ));
 	}
 
 	public PostDTO insert(PostDTO postDto) {
@@ -35,7 +41,7 @@ public class PostService {
 	}
 
 	public void delete(Integer id) {
-		find(id);
+		findDTO(id);
 		postRepository.deleteById(id);
 	}
 
@@ -43,5 +49,21 @@ public class PostService {
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		return postRepository.findAll(pageRequest);
 	}
+
+	public Post fromDTO(PostDTO postDTO) {
+		Post post = new Post();
+		return new Post(postDTO.getId(), postDTO.getLegenda(), postDTO.getTipo(), post.getUsuario());
+	}
+
+	public void updateDate(Post post, Post novoPost) {
+		post.setLegenda(novoPost.getLegenda());
+		post.setTipo(post.getTipo());
+		post.setUsuario(post.getUsuario());
+	}
 	
+	public Post update (Post post) {
+		Post novoPost = find(post.getId());
+		updateDate(novoPost, post);
+			return postRepository.save(novoPost);
+	}
 }

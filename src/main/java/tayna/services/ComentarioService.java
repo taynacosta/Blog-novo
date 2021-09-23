@@ -40,9 +40,10 @@ public class ComentarioService {
 				"Objeto não encontrado! Id: " + id + ", Tipo: " + Comentario.class.getName()));
 	}
 
-	/*public Comentario fromDTO(@Valid ComentarioDTO comentarioDTO) {
-		return new Comentario(null, comentarioDTO.getConteudo(), comentarioDTO.getPost(), comentarioDTO.getPostId());
-	}*/
+	public Comentario fromDTO(ComentarioDTO comentarioDTO) {
+		Comentario comentario = new Comentario();
+		return new Comentario(null, comentarioDTO.getConteudo(), comentario.getPost());
+	}
 
 	public ComentarioDTO insert(ComentarioDTO comentarioDto) {
 		var postOptional = postRepository.findById(comentarioDto.getPostId());
@@ -52,4 +53,21 @@ public class ComentarioService {
 		return ComentarioDTO.from(comentario);
 	}
 
+	public Comentario update(Comentario comentario) {
+		Comentario novoComentario = find(comentario.getId());
+		updateDate (novoComentario, comentario);
+		return comentarioRepository.save(novoComentario);
+	}
+
+	private void updateDate(Comentario novoComentario, Comentario comentario) {
+	comentario.setId(novoComentario.getId());
+	novoComentario.setConteudo(comentario.getConteudo());
+	comentario.setPost(comentario.getPost());
+	}
+
+	public void delete(Integer id) {
+		find(id);
+		comentarioRepository.deleteById(id);
+		
+	}
 }

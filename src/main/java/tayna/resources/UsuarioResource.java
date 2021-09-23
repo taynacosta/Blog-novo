@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -49,19 +50,16 @@ public class UsuarioResource {
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
-	// esta gravando com o id 1 numero menor
+	
 	@PutMapping("{id}")
 	public ResponseEntity<Object> putUsuario(@PathVariable Integer id, @RequestBody UsuarioDTO usuarioDTO) {
 	    Usuario usuario = service.fromDTO(usuarioDTO);
 	    usuario.setId(id);
-	   /* usuario.setNomeUsuario(usuarioDTO.getNomeUsuario());
-	    usuario.setEmail(usuarioDTO.getEmail());
-	    usuario.setSenha(usuarioDTO.getSenha());*/
 	    service.update(usuario);
 	    return ResponseEntity.noContent().build();
 	}
 
-	@RequestMapping(value ="/{id}", method = RequestMethod.DELETE)
+	@DeleteMapping("{id}")
 	public ResponseEntity<Void> delete(@PathVariable Integer id){
 		 service.delete(id);
 		return ResponseEntity.noContent().build();
