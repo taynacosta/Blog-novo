@@ -1,5 +1,6 @@
 package tayna.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -23,8 +24,7 @@ public class UsuarioService {
 
 	public Usuario find(Integer id) {
 		Optional<Usuario> obj = repo.findById(id);
-		return obj.orElseThrow(() -> new ObjectNotFoundException(
-				"Objeto não encontrado! Id: " + id ));
+		return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado! Id: " + id));
 	}
 
 	public Usuario fromDTO(@Valid UsuarioDTO objDTO) {
@@ -38,27 +38,33 @@ public class UsuarioService {
 	}
 
 	public Usuario save(Usuario usuario) {
-		return repo.save(usuario);	
+		return repo.save(usuario);
 	}
-	
+
 	private void updateDate(Usuario usuario, Usuario novoUsuario) {
-			usuario.setId(novoUsuario.getId());
-		    usuario.setNomeUsuario(novoUsuario.getNomeUsuario());
-		    usuario.setEmail(novoUsuario.getEmail());
-		    usuario.setSenha(novoUsuario.getSenha());
+		usuario.setId(novoUsuario.getId());
+		usuario.setNomeUsuario(novoUsuario.getNomeUsuario());
+		usuario.setEmail(novoUsuario.getEmail());
+		usuario.setSenha(novoUsuario.getSenha());
 	}
+
 	public Usuario update(Usuario usuario) {
 		Usuario novoUsuario = find(usuario.getId());
 		updateDate(novoUsuario, usuario);
 		return repo.save(novoUsuario);
 	}
 
-		public void delete(Integer id) {
+	public void delete(Integer id) {
 		find(id);
 		repo.deleteById(id);
 	}
-		public Page<Usuario> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
-			PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
-			return repo.findAll(pageRequest);
-		}
+
+	public Page<Usuario> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		return repo.findAll(pageRequest);
+	}
+
+	public List<Usuario> findAll() {
+		return repo.findAll();
+	}
 }

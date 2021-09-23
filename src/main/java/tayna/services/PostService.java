@@ -1,5 +1,6 @@
 package tayna.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +28,10 @@ public class PostService {
 		var post = postOptional.orElseThrow(() -> new IllegalArgumentException("O post nao foi encontrado"));
 		return PostDTO.from(post);
 	}
+
 	public Post find(Integer id) {
 		Optional<Post> obj = postRepository.findById(id);
-		return obj.orElseThrow(() -> new IllegalArgumentException("Objeto não encontrado! Id: " + id ));
+		return obj.orElseThrow(() -> new IllegalArgumentException("Objeto não encontrado! Id: " + id));
 	}
 
 	public PostDTO insert(PostDTO postDto) {
@@ -60,10 +62,14 @@ public class PostService {
 		post.setTipo(post.getTipo());
 		post.setUsuario(post.getUsuario());
 	}
-	
-	public Post update (Post post) {
+
+	public Post update(Post post) {
 		Post novoPost = find(post.getId());
 		updateDate(novoPost, post);
-			return postRepository.save(novoPost);
+		return postRepository.save(novoPost);
+	}
+
+	public List<Post> findAll() {
+		return postRepository.findAll();
 	}
 }

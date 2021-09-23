@@ -1,19 +1,23 @@
 package tayna.resources;
 
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -26,22 +30,25 @@ import tayna.services.UsuarioService;
 @RequestMapping(value="/usuarios")
 public class UsuarioResource {
 	
-	UsuarioRepository repository;
+	UsuarioRepository usuarioRepository;
 	
 	@Autowired
 	private UsuarioService service;
 	
-	@RequestMapping(value="/page", method=RequestMethod.GET)
-	public ResponseEntity<Page<UsuarioDTO>> findPage(
-			@RequestParam(value="page", defaultValue="0") Integer page, 
-			@RequestParam(value="linesPerPage", defaultValue="24") Integer linesPerPage, 
-			@RequestParam(value="nomeUsuario", defaultValue="id") String nomeUsuario, 
-			@RequestParam(value="direction", defaultValue="ASC") String direction) {
-		Page<Usuario> list = service.findPage(page, linesPerPage, nomeUsuario, direction);
-		Page<UsuarioDTO> listDto = list.map(obj -> new UsuarioDTO(obj.getId(), obj.getNomeUsuario(), obj.getSenha(), obj.getEmail()));  
-		return ResponseEntity.ok().body(listDto);
-		//http://localhost:8080/usuarios/page?linesPerPage=3&page=0&direction=DESC
+	@Transactional(readOnly = true)
+	public Page<UsuarioDTO> findAll(Pageable pageable){
+		usuarioRepository.findAll();
+		Page<Usuario> result = usuarioRepository.findAll(pageable);
+		return result.map(x -> new UsuarioDTO(x));
+		//http://localhost:8080/usuarios?page=1
 	}
+	@GetMapping
+	public ResponseEntity<List<UsuarioDTO>> findAll(Integer id) {
+		List<Usuario> list = service.findAll();
+		List <UsuarioDTO> listDto = list.stream().map(obj -> new UsuarioDTO(obj.getId(),obj.getNomeUsuario(), obj.getSenha(), obj.getEmail() 
+				)).collect(Collectors.toList()); 
+		return ResponseEntity.ok().body(listDto);
+}
 	
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Void> insert(@Valid @RequestBody UsuarioDTO objDTO){
