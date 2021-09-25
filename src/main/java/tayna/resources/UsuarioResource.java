@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,16 +46,15 @@ public class UsuarioResource {
 	@GetMapping
 	public ResponseEntity<List<UsuarioDTO>> findAll(Integer id) {
 		List<Usuario> list = service.findAll();
-		List <UsuarioDTO> listDto = list.stream().map(obj -> new UsuarioDTO(obj.getId(),obj.getNomeUsuario(), obj.getSenha(), obj.getEmail() 
+		List <UsuarioDTO> listDto = list.stream().map(obj -> new UsuarioDTO(obj.getId(),obj.getNomeUsuario(), obj.getEmail() 
 				)).collect(Collectors.toList()); 
 		return ResponseEntity.ok().body(listDto);
 }
 	
-	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> insert(@Valid @RequestBody UsuarioDTO objDTO){
-		Usuario obj = service.fromDTO(objDTO);
-		obj = service.insert(obj);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+	@PostMapping
+	public ResponseEntity<Void> insert(@Valid @RequestBody UsuarioDTO usuarioDTO){
+		usuarioDTO = service.insert(usuarioDTO);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(usuarioDTO.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
 	

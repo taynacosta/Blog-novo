@@ -6,5 +6,7 @@ import tayna.domain.Usuario;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 
+	Usuario findByNomeUsuario(String nomeUsuario);
+
 
 }

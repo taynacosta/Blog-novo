@@ -12,6 +12,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import tayna.domain.Usuario;
+import tayna.dto.ComentarioDTO;
 import tayna.dto.UsuarioDTO;
 import tayna.repositories.UsuarioRepository;
 import tayna.services.exceptions.ObjectNotFoundException;
@@ -20,10 +21,10 @@ import tayna.services.exceptions.ObjectNotFoundException;
 public class UsuarioService {
 
 	@Autowired
-	private UsuarioRepository repo;
+	private UsuarioRepository usuarioRepository;
 
 	public Usuario find(Integer id) {
-		Optional<Usuario> obj = repo.findById(id);
+		Optional<Usuario> obj = usuarioRepository.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado! Id: " + id));
 	}
 
@@ -31,14 +32,16 @@ public class UsuarioService {
 		return new Usuario(objDTO.getId(), objDTO.getNomeUsuario(), objDTO.getSenha(), objDTO.getEmail());
 	}
 
-	public Usuario insert(Usuario obj) {
-		obj.setId(null);
-		obj = repo.save(obj);
-		return obj;
+	public UsuarioDTO insert(UsuarioDTO usuarioDTO) {
+		//usuarioDTO.setId(null);
+		//Usuario usuario = new Usuario();
+		Usuario usuario = usuarioDTO.to();
+		usuarioRepository.save(usuario);
+		return UsuarioDTO.from(usuario);
 	}
 
 	public Usuario save(Usuario usuario) {
-		return repo.save(usuario);
+		return usuarioRepository.save(usuario);
 	}
 
 	private void updateDate(Usuario usuario, Usuario novoUsuario) {
@@ -51,20 +54,20 @@ public class UsuarioService {
 	public Usuario update(Usuario usuario) {
 		Usuario novoUsuario = find(usuario.getId());
 		updateDate(novoUsuario, usuario);
-		return repo.save(novoUsuario);
+		return usuarioRepository.save(novoUsuario);
 	}
 
 	public void delete(Integer id) {
 		find(id);
-		repo.deleteById(id);
+		usuarioRepository.deleteById(id);
 	}
 
 	public Page<Usuario> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
-		return repo.findAll(pageRequest);
+		return usuarioRepository.findAll(pageRequest);
 	}
 
 	public List<Usuario> findAll() {
-		return repo.findAll();
+		return usuarioRepository.findAll();
 	}
 }
