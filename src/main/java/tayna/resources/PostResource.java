@@ -39,6 +39,7 @@ public class PostResource {
 	public ResponseEntity<?> find(@PathVariable Integer id) {
 		var postDto= service.find(id);
 		return ResponseEntity.ok().body(postDto);
+		//funcionando ok porem so puxa o primeiro comentario
 }
 	
 	@Transactional(readOnly = true)
@@ -46,7 +47,7 @@ public class PostResource {
 		repository.findAll();
 		Page<Post> result = repository.findAll(pageable);
 		return result.map(x -> new PostDTO(x));
-		//http://localhost:8080/posts?page=1
+		//http://localhost:8080/posts?page=1 ver como funciona
 	}
 	@GetMapping
 	public ResponseEntity<List<PostDTO>> findAll(Integer id) {
@@ -63,6 +64,7 @@ public class PostResource {
 		return ResponseEntity.created(uri).build();
 		//validacao do tipo de post
 		/*{ "legenda": "sobre o ano novo", "tipo": "TEXTO", "usuarioId": 1 }*/
+		
 	}
 	
 	@PutMapping("{id}")
@@ -71,6 +73,7 @@ public class PostResource {
 	    post.setId(id);
 	    service.update(post);
 	    return ResponseEntity.noContent().build();
+	 // por mensagem de erro se tentar editar o tipo do texto
 	}
 	
 	@DeleteMapping("{id}")

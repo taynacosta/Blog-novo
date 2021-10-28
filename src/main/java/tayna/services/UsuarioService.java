@@ -29,7 +29,7 @@ public class UsuarioService {
 	}
 
 	public Usuario fromDTO(@Valid UsuarioDTO objDTO) {
-		return new Usuario(objDTO.getId(), objDTO.getNomeUsuario(), objDTO.getSenha(), objDTO.getEmail());
+		return new Usuario(objDTO.getId(), objDTO.getNomeUsuario(), objDTO.getSenha(), objDTO.getEmail(), objDTO.getPerfil());
 	}
 
 	public UsuarioDTO insert(UsuarioDTO usuarioDTO) {

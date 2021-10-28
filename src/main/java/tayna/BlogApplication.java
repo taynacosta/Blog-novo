@@ -1,5 +1,6 @@
 package tayna;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,10 +9,14 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import tayna.domain.Comentario;
+import tayna.domain.Perfil;
 import tayna.domain.Post;
 import tayna.domain.Usuario;
+import tayna.domain.enun.Genero;
+import tayna.domain.enun.StatusCivil;
 import tayna.domain.enun.TipoDePost;
 import tayna.repositories.ComentarioRepository;
+import tayna.repositories.PerfilRepository;
 import tayna.repositories.PostRepository;
 import tayna.repositories.UsuarioRepository;
 
@@ -27,18 +32,31 @@ public class BlogApplication implements CommandLineRunner {
 	@Autowired
 	private ComentarioRepository comentarioRepository;
 	
+	@Autowired
+	private PerfilRepository perfilRepository;
+	
 	public static void main(String[] args) {
 		SpringApplication.run(BlogApplication.class, args);
 
 	}
 	@Override
 	public void run(String... args) throws Exception {
-
-		Usuario us1 = new Usuario(null, "Tayna", 123, "tayna@gmail.com");
-		Usuario us2 = new Usuario(null, "Maria", 555, "maria@gmail.com");
-		Usuario us3 = new Usuario(null, "Jose", 555, "jose@gmail.com");
-		Usuario us4 = new Usuario(null, "Mariana", 555, "mariana@gmail.com");
-		Usuario us5 = new Usuario(null, "Joao", 555, "joao@gmail.com");
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+		
+		Perfil pf1 = new Perfil(StatusCivil.NAMORANDO, Genero.FEMININO, sdf.parse("18-11-1997"), "resumo sobre o meu perfil", 10.0, 10.0,10.0);
+		Perfil pf2 = new Perfil(StatusCivil.SOLTEIRO, Genero.FEMININO, sdf.parse("20-07-2004"), "resumo sobre o meu perfil", 10.0, 10.0,10.0);
+		Perfil pf3 = new Perfil(StatusCivil.CASADO, Genero.GENERO_NEUTRO, sdf.parse("20-09-2000"), "resumo sobre o meu perfil", 10.0, 10.0,10.0);
+		Perfil pf4 = new Perfil(StatusCivil.SOLTEIRO, Genero.FEMININO, sdf.parse("07-12-1993"), "resumo sobre o meu perfil", 10.0, 10.0,10.0);
+		Perfil pf5 = new Perfil(StatusCivil.CASADO, Genero.FEMININO, sdf.parse("01-08-1994"), "resumo sobre o meu perfil", 10.0, 10.0,10.0);
+		
+		perfilRepository.saveAll(Arrays.asList(pf1, pf2, pf3, pf4, pf5));
+		
+		Usuario us1 = new Usuario(null, "Tayna", 123, "tayna@gmail.com", pf1);
+		Usuario us2 = new Usuario(null, "Maria", 555, "maria@gmail.com", pf2);
+		Usuario us3 = new Usuario(null, "Jose", 555, "jose@gmail.com", pf3);
+		Usuario us4 = new Usuario(null, "Mariana", 555, "mariana@gmail.com", pf4);
+		Usuario us5 = new Usuario(null, "Joao", 555, "joao@gmail.com", pf5);
 		
 		usuarioRepository.saveAll(Arrays.asList(us1, us2, us3, us4, us5));
 		

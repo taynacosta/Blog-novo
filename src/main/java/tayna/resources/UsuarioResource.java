@@ -41,14 +41,15 @@ public class UsuarioResource {
 		usuarioRepository.findAll();
 		Page<Usuario> result = usuarioRepository.findAll(pageable);
 		return result.map(x -> new UsuarioDTO(x));
-		//http://localhost:8080/usuarios?page=1
+		//http://localhost:8080/usuarios?page=1 ver como está funcionando
 	}
 	@GetMapping
 	public ResponseEntity<List<UsuarioDTO>> findAll(Integer id) {
 		List<Usuario> list = service.findAll();
-		List <UsuarioDTO> listDto = list.stream().map(obj -> new UsuarioDTO(obj.getId(),obj.getNomeUsuario(), obj.getEmail() 
+		List <UsuarioDTO> listDto = list.stream().map(obj -> new UsuarioDTO(obj.getId(),obj.getNomeUsuario(), obj.getEmail(), obj.getPerfil() 
 				)).collect(Collectors.toList()); 
 		return ResponseEntity.ok().body(listDto);
+		//funcionando ok
 }
 	
 	@PostMapping
@@ -56,6 +57,7 @@ public class UsuarioResource {
 		usuarioDTO = service.insert(usuarioDTO);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(usuarioDTO.getId()).toUri();
 		return ResponseEntity.created(uri).build();
+		//{ "nomeUsuario": "sobre2","email":"joaozinho@gmail.com"} mensagem de erro funcionando
 	}
 	
 	@PutMapping("{id}")
@@ -64,12 +66,14 @@ public class UsuarioResource {
 	    usuario.setId(id);
 	    service.update(usuario);
 	    return ResponseEntity.noContent().build();
+	    //funcionando ok
 	}
 
 	@DeleteMapping("{id}")
 	public ResponseEntity<Void> delete(@PathVariable Integer id){
 		 service.delete(id);
 		return ResponseEntity.noContent().build();
+		//funcionando ok
 	}
 	
 }

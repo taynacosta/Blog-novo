@@ -9,6 +9,7 @@ import org.hibernate.validator.constraints.Length;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import tayna.domain.Perfil;
 import tayna.domain.Usuario;
 import tayna.services.validation.UsuarioInsert;
 
@@ -29,27 +30,31 @@ public class UsuarioDTO  implements Serializable{
 	//@Email @NotNull(message="O campo email é de preenchimento obrigatório")
 	private String email;
 	
-	public UsuarioDTO(Usuario obj) {	
+	private Perfil perfil;
+	
+	public UsuarioDTO(Usuario usuario) {	
 	}
 	public UsuarioDTO() {	
 	}
 	
 	public Usuario to() {
-		return new Usuario(null, this.nomeUsuario, this.senha, this.email);
+		return new Usuario(null, this.nomeUsuario, this.senha, this.email, this.perfil);
 	}
 
-	public UsuarioDTO(Integer id, String nomeUsuario, int senha, String email) {
+	public UsuarioDTO(Integer id, String nomeUsuario, int senha, String email, Perfil perfil) {
 		this.id = id;
 		this.nomeUsuario = nomeUsuario;
 		this.senha = senha;
 		this.email = email;
+		this.perfil = perfil;
 	}
 
 	//construtor para o get
-	public UsuarioDTO(Integer id, String nomeUsuario, String email) {
+	public UsuarioDTO(Integer id, String nomeUsuario, String email, Perfil perfil) {
 		this.id = id;
 		this.nomeUsuario = nomeUsuario;
 		this.email = email;
+		this.perfil = perfil;
 	}
 
 	public Integer getId() {
@@ -86,6 +91,12 @@ public class UsuarioDTO  implements Serializable{
 
 	public static UsuarioDTO from(Usuario usuario) {
 		return new UsuarioDTO(usuario);
+	}
+	public Perfil getPerfil() {
+		return perfil;
+	}
+	public void setPerfil(Perfil perfil) {
+		this.perfil = perfil;
 	}
 
 }

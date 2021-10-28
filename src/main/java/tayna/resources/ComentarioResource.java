@@ -38,14 +38,6 @@ public class ComentarioResource {
 	Post post = new Post();
 	
 	ComentarioRepository repository;
-	
-	@Transactional(readOnly = true)
-	public Page<ComentarioDTO> findAll(Pageable pageable){
-		repository.findAll();
-		Page<Comentario> result = repository.findAll(pageable);
-		return result.map(x -> new ComentarioDTO(x));
-		//http://localhost:8080/comentarios?page=1
-	}
 
 	@GetMapping
 	public ResponseEntity<List<ComentarioDTO>> findAll(Integer id) {
@@ -60,6 +52,7 @@ public class ComentarioResource {
 		var comentarioDto = service.insert(comentarioDTO);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(comentarioDto.getId()).toUri();
 		return ResponseEntity.created(uri).build();
+		//ok
 	}
 	@PutMapping("{id}")
 	public ResponseEntity<Object> put(@PathVariable Integer id, @RequestBody ComentarioDTO comentarioDTO) {
@@ -67,10 +60,12 @@ public class ComentarioResource {
 	    comentario.setId(id);
 	    service.update(comentario);
 	    return ResponseEntity.noContent().build();
+	    //{"conteudo": "alterando comentario","postId": 1}
 	}
 	@DeleteMapping("{id}")
 	public ResponseEntity<Void> delete(@PathVariable Integer id){
 		 service.delete(id);
 		return ResponseEntity.noContent().build();
+		//ok
 	}
 }

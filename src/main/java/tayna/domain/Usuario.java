@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Usuario implements Serializable {
@@ -27,16 +28,20 @@ public class Usuario implements Serializable {
 	
 	private String email;
 	
+	@OneToOne
+	private Perfil perfil;
+	
 	@OneToMany(cascade = CascadeType.ALL,mappedBy="usuario")
 	private List <Post> post = new ArrayList<>();
 
 	public Usuario(){}
 
-	public Usuario(Integer id, String nomeUsuario, int senha, String email) {
+	public Usuario(Integer id, String nomeUsuario, int senha, String email, Perfil perfil) {
 		this.id = id;
 		this.nomeUsuario = nomeUsuario;
 		this.senha = senha;
 		this.email = email;
+		this.perfil = perfil;
 	}
 
 	public Integer getId() {
@@ -78,6 +83,14 @@ public class Usuario implements Serializable {
 		this.post = post;
 	}
 
+
+	public Perfil getPerfil() {
+		return perfil;
+	}
+
+	public void setPerfil(Perfil perfil) {
+		this.perfil = perfil;
+	}
 
 	@Override
 	public int hashCode() {

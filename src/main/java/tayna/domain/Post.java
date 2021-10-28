@@ -26,6 +26,7 @@ public class Post implements Serializable {
 	private Integer id;
 	
 	private String legenda;
+	
 	private TipoDePost tipo;
 	
 	@ManyToOne @JoinColumn(name="usuario_id")
@@ -108,5 +109,6 @@ public class Post implements Serializable {
 		public boolean isNullOrNotEmpty(String s) {
 		return s == null || s.isEmpty();
 	}
+
 	
 }
