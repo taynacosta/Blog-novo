@@ -8,6 +8,7 @@ import javax.persistence.Id;
 
 import tayna.domain.Comentario;
 import tayna.domain.Post;
+import tayna.domain.Usuario;
 
 public class ComentarioDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -20,12 +21,17 @@ public class ComentarioDTO implements Serializable {
 	
 	private Integer postId;
 	
+	private String nomeUsuario;
+	
+	private Usuario usuario;
+	
 	Comentario comentario = new Comentario();
 	
-	public ComentarioDTO(Integer id, String conteudo, Integer postId) {
+	public ComentarioDTO(Integer id, String conteudo, Integer postId, Usuario usuario) {
 		this.id = id;
 		this.conteudo = conteudo;
 		this.postId = postId;
+		this.usuario = usuario;
 	}
 	
 	public ComentarioDTO() {}
@@ -41,7 +47,7 @@ public class ComentarioDTO implements Serializable {
 	}
 	
 	public Comentario to(Post post) {
-		return new Comentario(this.id, this.conteudo, post);
+		return new Comentario(this.id, this.conteudo, post, this.usuario);
 	}
 	
 	public Integer getId() {
@@ -67,5 +73,22 @@ public class ComentarioDTO implements Serializable {
 	public void setPostId(Integer postId) {
 		this.postId = postId;
 	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
+	public String getNomeUsuario() {
+		return usuario.getNomeUsuario();
+	}
+
+	public void setNomeUsuario(String nomeUsuario) {
+		this.nomeUsuario = nomeUsuario;
+	}
+	
 
 }

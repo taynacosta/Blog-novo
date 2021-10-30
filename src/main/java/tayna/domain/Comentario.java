@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -24,17 +25,22 @@ public class Comentario implements Serializable {
 	@ManyToOne @JoinColumn(name = "post_id")
 	@JsonIgnore
 	private Post post;
+	
+	private String nomeUsuario;
+	
+	@OneToOne @JsonIgnore
+	private Usuario usuario;
 			
 	public Comentario(){
 	}
 	
-	public Comentario(Integer id, String conteudo, Post post) {
+	public Comentario(Integer id, String conteudo, Post post, Usuario usuario) {
 		this.id = id;
 		this.conteudo = conteudo;
 		this.post = post;
+		this.usuario = usuario;
 	}
 		
-
 	public Integer getId() {
 		return id;
 	}
@@ -58,6 +64,18 @@ public class Comentario implements Serializable {
 	public void setPost(Post post) {
 		this.post = post;
 	}	
+
+	public String getNomeUsuario() {
+		return usuario.getNomeUsuario();
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
 
 	@Override
 	public int hashCode() {

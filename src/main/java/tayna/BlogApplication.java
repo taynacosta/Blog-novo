@@ -68,14 +68,14 @@ public class BlogApplication implements CommandLineRunner {
 	
 		postRepository.saveAll((Arrays.asList(post1, post2, post3, post4, post5)));
 		
-		Comentario com1 = new Comentario(null, "teste", null);
-		Comentario com2 = new Comentario(null, "teste", null);
-		Comentario com3 = new Comentario(null, "teste", null);
-		Comentario com4 = new Comentario(null, "teste", null);
-		Comentario com5 = new Comentario(null, "teste", null);
-		Comentario com6 = new Comentario(null, "teste", null);
-		Comentario com7 = new Comentario(null, "teste", null);
-		Comentario com8 = new Comentario(null, "teste", null);
+		Comentario com1 = new Comentario(null, "teste", null, us1);
+		Comentario com2 = new Comentario(null, "teste", null, us2);
+		Comentario com3 = new Comentario(null, "teste", null, us3);
+		Comentario com4 = new Comentario(null, "teste", null, us4);
+		Comentario com5 = new Comentario(null, "teste", null, us1);
+		Comentario com6 = new Comentario(null, "teste", null, us1);
+		Comentario com7 = new Comentario(null, "teste", null, us1);
+		Comentario com8 = new Comentario(null, "teste", null, us1);
 		
 		com1.setPost(post1);
 		com2.setPost(post2);

@@ -42,7 +42,7 @@ public class ComentarioService {
 
 	public Comentario fromDTO(ComentarioDTO comentarioDTO) {
 		Comentario comentario = new Comentario();
-		return new Comentario(null, comentarioDTO.getConteudo(), comentario.getPost());
+		return new Comentario(null, comentarioDTO.getConteudo(), comentario.getPost(), comentario.getUsuario());
 	}
 
 	public ComentarioDTO insert(ComentarioDTO comentarioDto) {

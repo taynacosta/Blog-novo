@@ -8,9 +8,6 @@ import java.util.GregorianCalendar;
 import javax.validation.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 import tayna.domain.Perfil;
 import tayna.domain.Usuario;
@@ -33,7 +30,7 @@ public class PerfilDTO implements Serializable{
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
 	private Integer idade;
 	
-	private Usuario usuario;
+	//private Usuario usuario;
 	
 	private String resumo;
 	
@@ -116,13 +113,13 @@ public class PerfilDTO implements Serializable{
 		this.idade = idade;
 	}
 	
-	public Usuario getUsuario() {
+/*	public Usuario getUsuario() {
 		return usuario;
 	}
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
-	}
+	}*/
 
 	public String getResumo() {
 		return resumo;

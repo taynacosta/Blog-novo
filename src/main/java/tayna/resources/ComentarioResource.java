@@ -43,7 +43,7 @@ public class ComentarioResource {
 	public ResponseEntity<List<ComentarioDTO>> findAll(Integer id) {
 		List<Comentario> list = service.findAll();
 		List <ComentarioDTO> listDto = list.stream().map(obj -> new ComentarioDTO(obj.getId(), obj.getConteudo(),
-				obj.getPost().getId())).collect(Collectors.toList()); 
+				obj.getPost().getId(), obj.getUsuario())).collect(Collectors.toList()); 
 		return ResponseEntity.ok().body(listDto);
 }
 	
