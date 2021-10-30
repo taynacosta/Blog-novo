@@ -8,6 +8,8 @@ import java.util.stream.Collectors;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import tayna.domain.Comentario;
 import tayna.domain.Post;
 import tayna.domain.Usuario;
@@ -26,17 +28,19 @@ public class PostDTO implements Serializable{
 	@NotNull(message="O campo tipo é de preenchimento obrigatório") 
 	private TipoDePost tipo;
 	
-	@NotNull
-	private Integer usuarioId;
+	@JsonIgnore
+	private Usuario usuario;
+	
+	private String nomeUsuario;
 	
 	public PostDTO() {}
 
-	public PostDTO(Integer id, String legenda, List<Comentario> comentarios, TipoDePost tipo, Integer usuarioId) {
+	public PostDTO(Integer id, String legenda, List<Comentario> comentarios, TipoDePost tipo, Usuario usuario) {
 		this.id = id;
 		this.legenda = legenda;
 		this.comentarios = comentarios;
 		this.setTipo(tipo);
-		this.usuarioId = usuarioId;
+		this.usuario = usuario;
 	}
 	
 	public PostDTO(Post entity) {
@@ -44,6 +48,7 @@ public class PostDTO implements Serializable{
 		this.legenda = entity.getLegenda();
 		this.comentarios = entity.getComentarios();
 		this.tipo = entity.getTipo();
+		this.usuario = entity.getUsuario();
 	}
 
 	public static PostDTO from(Post post) {
@@ -90,9 +95,17 @@ public class PostDTO implements Serializable{
 	public void setTipo(TipoDePost tipo) {
 		this.tipo = tipo;
 	}
-	
-	public Integer getUsuarioId() {
-		return usuarioId;
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
+	public String getNomeUsuario() {
+		return usuario.getNomeUsuario();
 	}
 	
 }

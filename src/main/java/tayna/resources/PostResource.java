@@ -53,7 +53,7 @@ public class PostResource {
 	public ResponseEntity<List<PostDTO>> findAll(Integer id) {
 		List<Post> list = service.findAll();
 		List <PostDTO> listDto = list.stream().map(obj -> new PostDTO(obj.getId(),obj.getLegenda(), obj.getComentarios(), obj.getTipo(),
-				obj.getUsuario().getId() )).collect(Collectors.toList()); 
+				/*obj.getUsuario().getId(),*/ obj.getUsuario() )).collect(Collectors.toList()); 
 		return ResponseEntity.ok().body(listDto);
 }
 	
