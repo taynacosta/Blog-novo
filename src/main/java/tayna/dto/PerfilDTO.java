@@ -7,10 +7,11 @@ import java.util.GregorianCalendar;
 
 import javax.validation.constraints.NotEmpty;
 
+import org.hibernate.validator.constraints.Length;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import tayna.domain.Perfil;
-import tayna.domain.Usuario;
 import tayna.domain.enun.Genero;
 import tayna.domain.enun.StatusCivil;
 
@@ -40,18 +41,24 @@ public class PerfilDTO implements Serializable{
 	
 	private Double sexy;
 	
+	@NotEmpty(message= "Preenhimento obrigatório")
+	@Length(min= 3, max= 20, message= "o tamanho deve ser entre 3 e 20 caracteres")
+	private String nome;
+	
+	private String sobrenome;
+	
 	public PerfilDTO() {}
 	
 	public PerfilDTO(Perfil perfil) {}
 	
 	public Perfil to() {
 		return new Perfil(this.statusCivil, this.genero, this.dataNascimento,
-			 this.resumo, this.legal, this.confiavel, this.sexy);
+			 this.resumo, this.legal, this.confiavel, this.sexy, this.nome, this.sobrenome);
 	}
 
 	public PerfilDTO( StatusCivil statusCivil,
 			@NotEmpty(message = "Preenhimento obrigatório") Genero genero, Date dataNascimento,
-			String resumo, Double legal, Double confiavel, Double sexy) {
+			String resumo, Double legal, Double confiavel, Double sexy, String nome, String sobrenome) {
 		
 		this.statusCivil = statusCivil;
 		this.genero = genero;
@@ -60,6 +67,8 @@ public class PerfilDTO implements Serializable{
 		this.legal = legal;
 		this.confiavel = confiavel;
 		this.sexy = sexy;
+		this.nome = nome;
+		this.sobrenome = sobrenome;
 	}
 	
 	public static PerfilDTO from(Perfil perfil) {
@@ -151,6 +160,22 @@ public class PerfilDTO implements Serializable{
 
 	public void setSexy(Double sexy) {
 		this.sexy = sexy;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public String getSobrenome() {
+		return sobrenome;
+	}
+
+	public void setSobrenome(String sobrenome) {
+		this.sobrenome = sobrenome;
 	}
 	
 }

@@ -49,10 +49,14 @@ public class Perfil implements Serializable {
 	
 	private Double sexy;
 	
+	private String nome;
+	
+	private String sobrenome;
+	
 	public Perfil() {}
 
 	public Perfil(StatusCivil statusCivil, Genero genero, Date dataNascimento,
-			String resumo, Double legal, Double confiavel, Double sexy) {
+			String resumo, Double legal, Double confiavel, Double sexy, String nome, String sobrenome) {
 		
 		this.statusCivil = statusCivil;
 		this.genero = genero;
@@ -61,6 +65,8 @@ public class Perfil implements Serializable {
 		this.legal = legal;
 		this.confiavel = confiavel;
 		this.sexy = sexy;
+		this.nome = nome;
+		this.sobrenome = sobrenome;
 	}
 
 	public StatusCivil getStatusCivil() {
@@ -138,6 +144,22 @@ public class Perfil implements Serializable {
 		int anohj = hj.get(Calendar.YEAR);
 		int anoNascimento = dataNascimento.get(Calendar.YEAR);
 		return new Integer(anohj - anoNascimento);
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public String getSobrenome() {
+		return sobrenome;
+	}
+
+	public void setSobrenome(String sobrenome) {
+		this.sobrenome = sobrenome;
 	}	
 	
 }

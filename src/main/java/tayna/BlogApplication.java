@@ -44,11 +44,11 @@ public class BlogApplication implements CommandLineRunner {
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 		
-		Perfil pf1 = new Perfil(StatusCivil.NAMORANDO, Genero.FEMININO, sdf.parse("18-11-1997"), "resumo sobre o meu perfil", 10.0, 10.0,10.0);
-		Perfil pf2 = new Perfil(StatusCivil.SOLTEIRO, Genero.FEMININO, sdf.parse("20-07-2004"), "resumo sobre o meu perfil", 10.0, 10.0,10.0);
-		Perfil pf3 = new Perfil(StatusCivil.CASADO, Genero.GENERO_NEUTRO, sdf.parse("20-09-2000"), "resumo sobre o meu perfil", 10.0, 10.0,10.0);
-		Perfil pf4 = new Perfil(StatusCivil.SOLTEIRO, Genero.FEMININO, sdf.parse("07-12-1993"), "resumo sobre o meu perfil", 10.0, 10.0,10.0);
-		Perfil pf5 = new Perfil(StatusCivil.CASADO, Genero.FEMININO, sdf.parse("01-08-1994"), "resumo sobre o meu perfil", 10.0, 10.0,10.0);
+		Perfil pf1 = new Perfil(StatusCivil.NAMORANDO, Genero.FEMININO, sdf.parse("18-11-1997"), "resumo sobre o meu perfil", 10.0, 10.0,10.0, "Tayna", "Moreira Costa");
+		Perfil pf2 = new Perfil(StatusCivil.SOLTEIRO, Genero.FEMININO, sdf.parse("20-07-2004"), "resumo sobre o meu perfil", 10.0, 10.0,10.0, "Maria", "Costa");
+		Perfil pf3 = new Perfil(StatusCivil.CASADO, Genero.GENERO_NEUTRO, sdf.parse("20-09-2000"), "resumo sobre o meu perfil", 10.0, 10.0,10.0, "Jose", "Silva");
+		Perfil pf4 = new Perfil(StatusCivil.SOLTEIRO, Genero.FEMININO, sdf.parse("07-12-1993"), "resumo sobre o meu perfil", 10.0, 10.0,10.0, "mariana", "S. Santos");
+		Perfil pf5 = new Perfil(StatusCivil.CASADO, Genero.FEMININO, sdf.parse("01-08-1994"), "resumo sobre o meu perfil", 10.0, 10.0,10.0, "Joaozin", "");
 		
 		perfilRepository.saveAll(Arrays.asList(pf1, pf2, pf3, pf4, pf5));
 		
