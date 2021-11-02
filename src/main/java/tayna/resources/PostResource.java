@@ -1,16 +1,16 @@
 package tayna.resources;
 
 import java.net.URI;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +30,7 @@ import tayna.services.PostService;
 @RequestMapping(value="/posts")
 public class PostResource {
 	
+	@Autowired
 	PostRepository repository;
 	
 	@Autowired
@@ -39,23 +40,12 @@ public class PostResource {
 	public ResponseEntity<?> find(@PathVariable Integer id) {
 		var postDto= service.find(id);
 		return ResponseEntity.ok().body(postDto);
-		//funcionando ok porem so puxa o primeiro comentario
-}
-	
-	@Transactional(readOnly = true)
-	public Page<PostDTO> findAll(Pageable pageable){
-		repository.findAll();
-		Page<Post> result = repository.findAll(pageable);
-		return result.map(x -> new PostDTO(x));
-		//http://localhost:8080/posts?page=1 ver como funciona
 	}
+	
 	@GetMapping
-	public ResponseEntity<List<PostDTO>> findAll(Integer id) {
-		List<Post> list = service.findAll();
-		List <PostDTO> listDto = list.stream().map(obj -> new PostDTO(obj.getId(),obj.getLegenda(), obj.getComentarios(), obj.getTipo(),
-				/*obj.getUsuario().getId(),*/ obj.getUsuario() )).collect(Collectors.toList()); 
-		return ResponseEntity.ok().body(listDto);
-}
+	public ResponseEntity<Page<Post>> list(Pageable pageable){
+		return ResponseEntity.ok(repository.findAll(pageable));
+	}
 	
 	@PostMapping
 	public ResponseEntity<?> insert(@Valid @RequestBody PostDTO postDTO){

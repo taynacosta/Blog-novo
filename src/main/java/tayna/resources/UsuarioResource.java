@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import tayna.domain.Post;
 import tayna.domain.Usuario;
 import tayna.dto.UsuarioDTO;
 import tayna.repositories.UsuarioRepository;
@@ -31,26 +32,22 @@ import tayna.services.UsuarioService;
 @RequestMapping(value="/usuarios")
 public class UsuarioResource {
 	
+	@Autowired
 	UsuarioRepository usuarioRepository;
 	
 	@Autowired
 	private UsuarioService service;
 	
-	@Transactional(readOnly = true)
-	public Page<UsuarioDTO> findAll(Pageable pageable){
-		usuarioRepository.findAll();
-		Page<Usuario> result = usuarioRepository.findAll(pageable);
-		return result.map(x -> new UsuarioDTO(x));
-		//http://localhost:8080/usuarios?page=1 ver como está funcionando
-	}
 	@GetMapping
-	public ResponseEntity<List<UsuarioDTO>> findAll(Integer id) {
-		List<Usuario> list = service.findAll();
-		List <UsuarioDTO> listDto = list.stream().map(obj -> new UsuarioDTO(obj.getId(),obj.getNomeUsuario(), obj.getEmail(), obj.getPerfil() 
-				)).collect(Collectors.toList()); 
-		return ResponseEntity.ok().body(listDto);
-		//funcionando ok
-}
+	public ResponseEntity<Page<Usuario>> list(Pageable pageable){
+		return ResponseEntity.ok(usuarioRepository.findAll(pageable));
+	}//http://localhost:8083/usuarios?page=0&size=2
+	
+	@GetMapping("{id}")
+	public ResponseEntity<?> find(@PathVariable Integer id) {
+		var usuarioDto= service.find(id);
+		return ResponseEntity.ok().body(usuarioDto);
+	}//http://localhost:8083/usuarios/1
 	
 	@PostMapping
 	public ResponseEntity<Void> insert(@Valid @RequestBody UsuarioDTO usuarioDTO){
@@ -66,14 +63,12 @@ public class UsuarioResource {
 	    usuario.setId(id);
 	    service.update(usuario);
 	    return ResponseEntity.noContent().build();
-	    //funcionando ok
 	}
 
 	@DeleteMapping("{id}")
 	public ResponseEntity<Void> delete(@PathVariable Integer id){
 		 service.delete(id);
 		return ResponseEntity.noContent().build();
-		//funcionando ok
 	}
 	
 }

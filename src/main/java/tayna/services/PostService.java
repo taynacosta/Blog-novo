@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,7 @@ public class PostService {
 
 	@Autowired
 	UsuarioRepository usuarioRepository;
+	
 
 	public PostDTO findDTO(Integer id) {
 		var postOptional = postRepository.findById(id);
@@ -47,10 +49,10 @@ public class PostService {
 		postRepository.deleteById(id);
 	}
 
-	public Page<Post> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+	/*public Page<Post> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		return postRepository.findAll(pageRequest);
-	}
+	}*/
 
 	public Post fromDTO(PostDTO postDTO) {
 		Post post = new Post();
@@ -69,7 +71,7 @@ public class PostService {
 		return postRepository.save(novoPost);
 	}
 
-	public List<Post> findAll() {
+	/*public List<Post> findAll() {
 		return postRepository.findAll();
-	}
+	}*/ // arrumar isso depois
 }

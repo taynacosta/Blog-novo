@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import tayna.domain.enun.TipoDePost;
 
@@ -29,10 +30,10 @@ public class Post implements Serializable {
 	
 	private TipoDePost tipo;
 	
-	@ManyToOne @JoinColumn(name="usuario_id")
+	@ManyToOne @JoinColumn(name="usuario_id") @JsonIgnoreProperties("perfil")
 	private Usuario usuario;
 
-	@JsonIgnore @OneToMany(cascade = CascadeType.ALL,mappedBy = "post")
+	@OneToMany(cascade = CascadeType.ALL,mappedBy = "post")
 	private List <Comentario> comentarios = new ArrayList<>();
 	
 	public Post() {}
