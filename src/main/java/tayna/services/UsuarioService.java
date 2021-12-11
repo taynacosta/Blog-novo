@@ -15,6 +15,7 @@ import tayna.domain.Usuario;
 import tayna.dto.ComentarioDTO;
 import tayna.dto.UsuarioDTO;
 import tayna.repositories.UsuarioRepository;
+import tayna.resources.UsuarioResource;
 import tayna.services.exceptions.ObjectNotFoundException;
 
 @Service
@@ -22,6 +23,14 @@ public class UsuarioService {
 
 	@Autowired
 	private UsuarioRepository usuarioRepository;
+	
+	@Autowired
+	private UsuarioResource usuarioResource;
+
+	public UsuarioService(UsuarioResource resource, UsuarioRepository repository) {
+		this.usuarioResource = resource;
+		this.usuarioRepository = repository;
+	}
 
 	public Usuario find(Integer id) {
 		Optional<Usuario> obj = usuarioRepository.findById(id);
@@ -44,7 +53,7 @@ public class UsuarioService {
 		return usuarioRepository.save(usuario);
 	}
 
-	private void updateDate(Usuario usuario, Usuario novoUsuario) {
+	public void updateDate(Usuario usuario, Usuario novoUsuario) {
 		usuario.setId(novoUsuario.getId());
 		usuario.setNomeUsuario(novoUsuario.getNomeUsuario());
 		usuario.setEmail(novoUsuario.getEmail());
@@ -67,7 +76,4 @@ public class UsuarioService {
 		return usuarioRepository.findAll(pageRequest);
 	}
 
-	public List<Usuario> findAll() {
-		return usuarioRepository.findAll();
-	}
 }
