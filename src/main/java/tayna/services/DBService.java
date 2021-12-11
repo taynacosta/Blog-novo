@@ -5,6 +5,7 @@ import java.util.Arrays;
 
 import org.apache.tomcat.util.json.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import tayna.domain.Comentario;
@@ -34,6 +35,9 @@ public class DBService {
 	@Autowired
 	private PerfilRepository perfilRepository;
 	
+	@Autowired
+	private BCryptPasswordEncoder pe;
+	
 	public void instantiateTestDatabase() throws ParseException, java.text.ParseException {
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
@@ -46,11 +50,11 @@ public class DBService {
 		
 		perfilRepository.saveAll(Arrays.asList(pf1, pf2, pf3, pf4, pf5));
 		
-		Usuario us1 = new Usuario(null, "Tayna", 123, "tayna@gmail.com", pf1);
-		Usuario us2 = new Usuario(null, "Maria", 555, "maria@gmail.com", pf2);
-		Usuario us3 = new Usuario(null, "Jose", 555, "jose@gmail.com", pf3);
-		Usuario us4 = new Usuario(null, "Mariana", 555, "mariana@gmail.com", pf4);
-		Usuario us5 = new Usuario(null, "Joao", 555, "joao@gmail.com", pf5);
+		Usuario us1 = new Usuario(null, "Tayna", pe.encode("123"), "tayna@gmail.com", pf1);
+		Usuario us2 = new Usuario(null, "Maria", pe.encode("555"), "maria@gmail.com", pf2);
+		Usuario us3 = new Usuario(null, "Jose", pe.encode("555"), "jose@gmail.com", pf3);
+		Usuario us4 = new Usuario(null, "Mariana", pe.encode("555"), "mariana@gmail.com", pf4);
+		Usuario us5 = new Usuario(null, "Joao", pe.encode("555"), "joao@gmail.com", pf5);
 		
 		usuarioRepository.saveAll(Arrays.asList(us1, us2, us3, us4, us5));
 		

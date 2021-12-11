@@ -25,7 +25,8 @@ public class UsuarioDTO  implements Serializable{
 	private String nomeUsuario;
 	
 	@JsonIgnore
-	private int senha;
+	@NotEmpty(message="Preenchimento obrigatório")
+	private String senha;
 	
 	//@Email @NotNull(message="O campo email é de preenchimento obrigatório")
 	private String email;
@@ -41,7 +42,7 @@ public class UsuarioDTO  implements Serializable{
 		return new Usuario(null, this.nomeUsuario, this.senha, this.email, this.perfil);
 	}
 
-	public UsuarioDTO(Integer id, String nomeUsuario, int senha, String email, Perfil perfil) {
+	public UsuarioDTO(Integer id, String nomeUsuario, String senha, String email, Perfil perfil) {
 		this.id = id;
 		this.nomeUsuario = nomeUsuario;
 		this.senha = senha;
@@ -73,11 +74,11 @@ public class UsuarioDTO  implements Serializable{
 		this.nomeUsuario = nomeUsuario;
 	}
 
-	public int getSenha() {
+	public String getSenha() {
 		return senha;
 	}
 
-	public void setSenha(int senha) {
+	public void setSenha(String senha) {
 		this.senha = senha;
 	}
 
