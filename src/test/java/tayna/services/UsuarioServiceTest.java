@@ -50,7 +50,7 @@ class UsuarioServiceTest {
 		private void start() throws ParseException{
 			
 		pf1 = new Perfil(StatusCivil.NAMORANDO, Genero.FEMININO, sdf.parse("18-11-1997"), "resumo sobre o meu perfil", 10.0, 10.0,10.0, "Tayna", "Moreira Costa");
-		us1 = new UsuarioDTO(1, "Tayna", 123, "tayna@gmail.com", pf1);
+		us1 = new UsuarioDTO(1, "Tayna", "123", "tayna@gmail.com", pf1);
 		
 		MockitoAnnotations.openMocks(this);
 		this.service = new UsuarioService(resource, repository);
@@ -62,7 +62,7 @@ class UsuarioServiceTest {
 			service.insert(us1);
 			Usuario usuario = us1.to();
 			repository.save(usuario);
-			UsuarioDTO ehverdade = new UsuarioDTO(1, "Tayna", 123, "tayna@gmail.com", pf1);
+			UsuarioDTO ehverdade = new UsuarioDTO(1, "Tayna", "123", "tayna@gmail.com", pf1);
 			
 			assertEquals(ehverdade, us1);
 			
@@ -71,7 +71,7 @@ class UsuarioServiceTest {
 		@Test
 		@Order(2)
 		public void deveriaAtualizarUsuario() {
-			Usuario novoUsuario = new Usuario(1, "Taynx", 123564, "taynx@gmail.com", pf1);
+			Usuario novoUsuario = new Usuario(1, "Taynx", "123564", "taynx@gmail.com", pf1);
 			//Mockito.when(repository.findById(id)).thenReturn(novoUsuario);
 			Mockito.when(service.update(novoUsuario)).thenReturn(service.update(novoUsuario));
 			novoUsuario.setId(us1.getId());

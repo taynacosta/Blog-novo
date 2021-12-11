@@ -2,16 +2,24 @@ package tayna.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+
+import tayna.domain.enun.TipoAutorizacao;
 
 @Entity
 public class Usuario implements Serializable {
@@ -33,8 +41,14 @@ public class Usuario implements Serializable {
 	
 	@OneToMany(cascade = CascadeType.ALL,mappedBy="usuario")
 	private List <Post> post = new ArrayList<>();
+	
+	@ElementCollection(fetch=FetchType.EAGER)
+	@CollectionTable(name="TIPOAUTORIZACAO")
+	private Set<Integer> tipoAut = new HashSet<>();
 
-	public Usuario(){}
+	public Usuario(){
+		addTipoAut(TipoAutorizacao.CLIENTE);
+	}
 
 	public Usuario(Integer id, String nomeUsuario, String senha, String email, Perfil perfil) {
 		this.id = id;
@@ -42,6 +56,7 @@ public class Usuario implements Serializable {
 		this.senha = senha;
 		this.email = email;
 		this.perfil = perfil;
+		addTipoAut(TipoAutorizacao.CLIENTE);
 	}
 
 	public Integer getId() {
@@ -90,6 +105,14 @@ public class Usuario implements Serializable {
 
 	public void setPerfil(Perfil perfil) {
 		this.perfil = perfil;
+	}
+	
+	public Set<TipoAutorizacao> getTipoAut() {
+		return tipoAut.stream().map(x -> TipoAutorizacao.toEnum(x)).collect(Collectors.toSet());
+	}
+
+	public void addTipoAut(TipoAutorizacao tipo) {
+		tipoAut.add(tipo.getCod());
 	}
 
 	@Override
