@@ -37,7 +37,7 @@ public class PostService {
 	}
 
 	public PostDTO insert(PostDTO postDto) {
-		var usuarioOptional = usuarioRepository.findById(postDto.getUsuario().getId());
+		var usuarioOptional = usuarioRepository.findById(postDto.getUsuarioId());
 		var usuario = usuarioOptional.orElseThrow(() -> new IllegalArgumentException("Usuario invalido"));
 		var post = postDto.to(usuario);
 		postRepository.save(post);

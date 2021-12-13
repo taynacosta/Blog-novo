@@ -10,7 +10,6 @@ import tayna.domain.Usuario;
 import tayna.repositories.UsuarioRepository;
 import tayna.security.UsuarioSS;
 
-
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
@@ -23,6 +22,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		if (usuario == null) {
 			throw new UsernameNotFoundException(email);
 		}
-		return new UsuarioSS(usuario.getId(), usuario.getNomeUsuario(), usuario.getSenha(), usuario.getTipoAut());
+		return new UsuarioSS(usuario.getId(), usuario.getEmail(), usuario.getSenha(), usuario.getTipoAut());
 	}
+
 }

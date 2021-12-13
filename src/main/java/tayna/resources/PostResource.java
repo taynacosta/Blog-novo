@@ -6,11 +6,9 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -47,16 +45,17 @@ public class PostResource {
 		return ResponseEntity.ok(repository.findAll(pageable));
 	}
 	
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@PostMapping
 	public ResponseEntity<?> insert(@Valid @RequestBody PostDTO postDTO){
 		var postDto = service.insert(postDTO);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(postDto.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 		//validacao do tipo de post
-		/*{ "legenda": "sobre o ano novo", "tipo": "TEXTO", "usuarioId": 1 }*/
-		
+		/*{ "legenda": "sobre o ano novo", "tipo": "TEXTO", "usuarioId" : 1 }*/
 	}
 	
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@PutMapping("{id}")
 	public ResponseEntity<Object> putPost(@PathVariable Integer id, @RequestBody PostDTO postDTO) {
 		Post post = service.fromDTO(postDTO);
@@ -66,6 +65,7 @@ public class PostResource {
 	 // por mensagem de erro se tentar editar o tipo do texto
 	}
 	
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@DeleteMapping("{id}")
 	public ResponseEntity<Void> delete(@PathVariable Integer id){
 		 service.delete(id);

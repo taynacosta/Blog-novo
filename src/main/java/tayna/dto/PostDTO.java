@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -18,6 +20,7 @@ import tayna.domain.enun.TipoDePost;
 public class PostDTO implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	
 	@NotBlank
@@ -31,16 +34,19 @@ public class PostDTO implements Serializable{
 	@JsonIgnore
 	private Usuario usuario;
 	
+	private Integer usuarioId;
+	
 	private String nomeUsuario;
 	
 	public PostDTO() {}
 
-	public PostDTO(Integer id, String legenda, List<Comentario> comentarios, TipoDePost tipo, Usuario usuario) {
+	public PostDTO(Integer id, String legenda,/* List<Comentario> comentarios,*/ TipoDePost tipo, Usuario usuario, Integer usuarioId) {
 		this.id = id;
 		this.legenda = legenda;
-		this.comentarios = comentarios;
+		//this.comentarios = comentarios;
 		this.setTipo(tipo);
 		this.usuario = usuario;
+		this.usuarioId = usuarioId;
 	}
 	
 	public PostDTO(Post entity) {
@@ -49,6 +55,7 @@ public class PostDTO implements Serializable{
 		this.comentarios = entity.getComentarios();
 		this.tipo = entity.getTipo();
 		this.usuario = entity.getUsuario();
+		this.usuarioId = entity.getUsuario().getId();
 	}
 
 	public static PostDTO from(Post post) {
@@ -106,6 +113,14 @@ public class PostDTO implements Serializable{
 
 	public String getNomeUsuario() {
 		return usuario.getNomeUsuario();
+	}
+
+	public Integer getUsuarioId() {
+		return usuarioId;
+	}
+
+	public void setUsuarioId(Integer usuarioId) {
+		this.usuarioId = usuarioId;
 	}
 	
 }

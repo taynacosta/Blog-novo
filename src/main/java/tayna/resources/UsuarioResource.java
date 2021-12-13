@@ -1,8 +1,6 @@
 package tayna.resources;
 
 import java.net.URI;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -10,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,11 +16,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import tayna.domain.Post;
 import tayna.domain.Usuario;
 import tayna.dto.UsuarioDTO;
 import tayna.repositories.UsuarioRepository;
@@ -49,14 +45,16 @@ public class UsuarioResource {
 		return ResponseEntity.ok().body(usuarioDto);
 	}//http://localhost:8083/usuarios/1
 	
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@PostMapping
 	public ResponseEntity<Void> insert(@Valid @RequestBody UsuarioDTO usuarioDTO){
 		usuarioDTO = service.insert(usuarioDTO);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(usuarioDTO.getId()).toUri();
 		return ResponseEntity.created(uri).build();
-		//{ "nomeUsuario": "sobre2","email":"joaozinho@gmail.com"} mensagem de erro funcionando
+		//{ "nomeUsuario": "sobre2","email" :"joaozinho@gmail.com"} mensagem de erro funcionando
 	}
 	
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@PutMapping("{id}")
 	public ResponseEntity<Object> putUsuario(@PathVariable Integer id, @RequestBody UsuarioDTO usuarioDTO) {
 	    Usuario usuario = service.fromDTO(usuarioDTO);
@@ -65,6 +63,7 @@ public class UsuarioResource {
 	    return ResponseEntity.noContent().build();
 	}
 
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@DeleteMapping("{id}")
 	public ResponseEntity<Void> delete(@PathVariable Integer id){
 		 service.delete(id);

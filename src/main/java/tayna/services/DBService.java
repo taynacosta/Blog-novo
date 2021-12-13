@@ -14,6 +14,7 @@ import tayna.domain.Post;
 import tayna.domain.Usuario;
 import tayna.domain.enun.Genero;
 import tayna.domain.enun.StatusCivil;
+import tayna.domain.enun.TipoAutorizacao;
 import tayna.domain.enun.TipoDePost;
 import tayna.repositories.ComentarioRepository;
 import tayna.repositories.PerfilRepository;
@@ -55,6 +56,12 @@ public class DBService {
 		Usuario us3 = new Usuario(null, "Jose", pe.encode("555"), "jose@gmail.com", pf3);
 		Usuario us4 = new Usuario(null, "Mariana", pe.encode("555"), "mariana@gmail.com", pf4);
 		Usuario us5 = new Usuario(null, "Joao", pe.encode("555"), "joao@gmail.com", pf5);
+		
+		us1.addTipoAut(TipoAutorizacao.ADMIN);
+		us2.addTipoAut(TipoAutorizacao.ADMIN);
+		us3.addTipoAut(TipoAutorizacao.ADMIN);
+		us4.addTipoAut(TipoAutorizacao.ADMIN);
+		us5.addTipoAut(TipoAutorizacao.ADMIN);
 		
 		usuarioRepository.saveAll(Arrays.asList(us1, us2, us3, us4, us5));
 		

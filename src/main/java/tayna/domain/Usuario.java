@@ -30,11 +30,12 @@ public class Usuario implements Serializable {
 	private Integer id;
 	
 	@Column(unique=true)
+	private String email;
+	
+	@Column(unique=true)
 	private String nomeUsuario;
 	
 	private String senha;
-	
-	private String email;
 	
 	@OneToOne
 	private Perfil perfil;
@@ -47,7 +48,7 @@ public class Usuario implements Serializable {
 	private Set<Integer> tipoAut = new HashSet<>();
 
 	public Usuario(){
-		addTipoAut(TipoAutorizacao.CLIENTE);
+		addTipoAut(TipoAutorizacao.ADMIN);
 	}
 
 	public Usuario(Integer id, String nomeUsuario, String senha, String email, Perfil perfil) {
@@ -56,7 +57,7 @@ public class Usuario implements Serializable {
 		this.senha = senha;
 		this.email = email;
 		this.perfil = perfil;
-		addTipoAut(TipoAutorizacao.CLIENTE);
+		addTipoAut(TipoAutorizacao.ADMIN);
 	}
 
 	public Integer getId() {
