@@ -38,6 +38,7 @@ public class PostService {
 
 	public PostDTO insert(PostDTO postDto) {
 		var usuarioOptional = usuarioRepository.findById(postDto.getUsuarioId());
+		//verificar usuario autenticado aqui
 		var usuario = usuarioOptional.orElseThrow(() -> new IllegalArgumentException("Usuario invalido"));
 		var post = postDto.to(usuario);
 		postRepository.save(post);

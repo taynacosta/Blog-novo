@@ -9,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,13 +46,21 @@ public class PostResource {
 	public ResponseEntity<Page<Post>> list(Pageable pageable){
 		return ResponseEntity.ok(repository.findAll(pageable));
 	}
-	
+
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	@PostMapping
-	public ResponseEntity<?> insert(@Valid @RequestBody PostDTO postDTO){
+	public ResponseEntity<?> insert(@Valid @RequestBody PostDTO postDTO, @AuthenticationPrincipal UserDetails logado){
+		//logado = postDTO.getUsuario();
+		//if(logado.equals(postDTO.getUsuarioId())) {
+		//logado = (Usuario)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if(postDTO.getUsuario().getNomeUsuario() == (logado).getUsername()) {
 		var postDto = service.insert(postDTO);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(postDto.getId()).toUri();
 		return ResponseEntity.created(uri).build();
+		}
+		else {
+			return ResponseEntity.badRequest().body("Usuario nao tem permissao de postar em outro perfil");
+		}
 		//validacao do tipo de post
 		/*{ "legenda": "sobre o ano novo", "tipo": "TEXTO", "usuarioId" : 1 }*/
 	}
