@@ -53,13 +53,13 @@ public class PostResource {
 		//logado = postDTO.getUsuario();
 		//if(logado.equals(postDTO.getUsuarioId())) {
 		//logado = (Usuario)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		if(postDTO.getUsuario().getNomeUsuario() == (logado).getUsername()) {
+		if(postDTO.getNomeUsuario().equals(logado.getUsername())) {
 		var postDto = service.insert(postDTO);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(postDto.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 		}
 		else {
-			return ResponseEntity.badRequest().body("Usuario nao tem permissao de postar em outro perfil");
+			return ResponseEntity.badRequest().body("Usuario nao tem permissao de postar em outro perfil " + "postDTO.getNomeUsuario() " + postDTO.getNomeUsuario() + " (logado).getUsername() " + (logado).getUsername() );
 		}
 		//validacao do tipo de post
 		/*{ "legenda": "sobre o ano novo", "tipo": "TEXTO", "usuarioId" : 1 }*/

@@ -40,13 +40,13 @@ public class PostDTO implements Serializable{
 	
 	public PostDTO() {}
 
-	public PostDTO(Integer id, String legenda,/* List<Comentario> comentarios,*/ TipoDePost tipo, Usuario usuario, Integer usuarioId) {
+	public PostDTO(Integer id, String legenda,/* List<Comentario> comentarios,*/ TipoDePost tipo, String nomeUsuario, Integer usuarioId) {
 		this.id = id;
 		this.legenda = legenda;
 		//this.comentarios = comentarios;
 		this.setTipo(tipo);
-		this.usuario = usuario;
-		this.usuarioId = usuarioId;
+		this.nomeUsuario = nomeUsuario;
+		this.usuarioId = usuario.getId();
 	}
 	
 	public PostDTO(Post entity) {
@@ -112,7 +112,8 @@ public class PostDTO implements Serializable{
 	}
 
 	public String getNomeUsuario() {
-		return usuario.getNomeUsuario();
+		//return usuario.getNomeUsuario();
+		return nomeUsuario;
 	}
 
 	public Integer getUsuarioId() {
