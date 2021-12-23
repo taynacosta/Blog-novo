@@ -1,6 +1,7 @@
 package tayna.resources;
 
 import java.net.URI;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -50,27 +51,31 @@ public class PostResource {
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	@PostMapping
 	public ResponseEntity<?> insert(@Valid @RequestBody PostDTO postDTO, @AuthenticationPrincipal UserDetails logado){
-		//logado = postDTO.getUsuario();
-		//if(logado.equals(postDTO.getUsuarioId())) {
-		//logado = (Usuario)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		if(postDTO.getNomeUsuario().equals(logado.getUsername())) {
 		var postDto = service.insert(postDTO);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(postDto.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 		}
 		else {
-			return ResponseEntity.badRequest().body("Usuario nao tem permissao de postar em outro perfil " + "postDTO.getNomeUsuario() " + postDTO.getNomeUsuario() + " (logado).getUsername() " + (logado).getUsername() );
+			return ResponseEntity.badRequest().body("Usuario nao tem permissao de postar em outro perfil " );
 		}
 		//validacao do tipo de post
-		/*{ "legenda": "sobre o ano novo", "tipo": "TEXTO", "usuarioId" : 1 }*/
+		/*{"legenda": "sobre o novo", "tipo": "TEXTO", "nomeUsuario" : "Maria", "usuarioId": 2 }*/
 	}
 	
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	@PutMapping("{id}")
-	public ResponseEntity<Object> putPost(@PathVariable Integer id, @RequestBody PostDTO postDTO) {
+	public ResponseEntity<Object> putPost(@PathVariable Integer id, @RequestBody PostDTO postDTO, @AuthenticationPrincipal UserDetails logado) {
+		Optional<Post> postId = repository.findById(id);
+		var postNovo = postId.orElseThrow(() -> new IllegalArgumentException("Id do Post invalido"));
+		if(postNovo.getUsuario().getNomeUsuario().equals(logado.getUsername())) {
 		Post post = service.fromDTO(postDTO);
 	    post.setId(id);
 	    service.update(post);
+		}
+		else {
+			return ResponseEntity.badRequest().body("Usuario nao tem permissao de editar um post que não é seu " );
+		}
 	    return ResponseEntity.noContent().build();
 	 // por mensagem de erro se tentar editar o tipo do texto
 	}

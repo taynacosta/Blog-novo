@@ -52,7 +52,10 @@ public class PostService {
 
 	public Post fromDTO(PostDTO postDTO) {
 		Post post = new Post();
-		return new Post(postDTO.getId(), postDTO.getLegenda(), postDTO.getTipo(), post.getUsuario());
+		var usuarioOptional = usuarioRepository.findById(postDTO.getUsuarioId());
+		var usuario = usuarioOptional.orElseThrow(() -> new IllegalArgumentException("Usuario invalido"));
+
+		return new Post(postDTO.getId(), postDTO.getLegenda(), postDTO.getTipo(), usuario);
 	}
 
 	public void updateDate(Post post, Post novoPost) {
