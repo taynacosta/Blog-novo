@@ -63,6 +63,7 @@ public class ComentarioService {
 	comentario.setId(novoComentario.getId());
 	novoComentario.setConteudo(comentario.getConteudo());
 	comentario.setPost(comentario.getPost());
+	comentario.setUsuario(comentario.getUsuario());
 	}
 
 	public void delete(Integer id) {

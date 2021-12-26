@@ -1,6 +1,8 @@
 package tayna.dto;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -9,9 +11,12 @@ import javax.persistence.Id;
 import tayna.domain.Comentario;
 import tayna.domain.Post;
 import tayna.domain.Usuario;
+import tayna.repositories.UsuarioRepository;
 
 public class ComentarioDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
+	
+	UsuarioRepository service;
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -23,14 +28,18 @@ public class ComentarioDTO implements Serializable {
 	
 	private String nomeUsuario;
 	
+	private Integer usuarioId;
+	
 	private Usuario usuario;
 	
 	Comentario comentario = new Comentario();
 	
-	public ComentarioDTO(Integer id, String conteudo, Integer postId, Usuario usuario) {
+	/*public ComentarioDTO(Integer id, String conteudo, Integer postId, String nomeUsuario, Integer usuarioId, Usuario usuario) {
 		this.id = id;
 		this.conteudo = conteudo;
 		this.postId = postId;
+		this.nomeUsuario = usuario.getNomeUsuario();
+		this.usuarioId = usuario.getId();
 		this.usuario = usuario;
 	}
 	
@@ -39,7 +48,27 @@ public class ComentarioDTO implements Serializable {
 	public ComentarioDTO (Comentario entity) {
 		this.id = entity.getId();
 		this.conteudo = entity.getConteudo();
+		this.nomeUsuario = entity.getNomeUsuario();
 		this.postId = entity.getPost().getId();
+		this.usuario = entity.getUsuario();
+		this.usuarioId = entity.getUsuario().getId();
+	}*/
+	
+	public ComentarioDTO(Integer id, String conteudo, Integer postId, Usuario usuario, String nomeUsuario) {
+		this.id = id;
+		this.conteudo = conteudo;
+		this.postId = postId;
+		this.usuario = usuario;
+		this.nomeUsuario = usuario.getNomeUsuario();
+	}
+	
+	public ComentarioDTO() {}
+	
+	public ComentarioDTO (Comentario entity) {
+		this.id = entity.getId();
+		this.conteudo = entity.getConteudo();
+		this.postId = entity.getPost().getId();
+		this.usuario = entity.getUsuario();
 	}
 	
 	public static ComentarioDTO from(Comentario comentario) {
@@ -83,12 +112,19 @@ public class ComentarioDTO implements Serializable {
 	}
 
 	public String getNomeUsuario() {
-		return usuario.getNomeUsuario();
+		return nomeUsuario;
 	}
 
 	public void setNomeUsuario(String nomeUsuario) {
 		this.nomeUsuario = nomeUsuario;
 	}
 	
+	public Integer getUsuarioId() {
+		return usuarioId;
+	}
+
+	public void setUsuarioId(Integer usuarioId) {
+		this.usuarioId = usuarioId;
+	}
 
 }
