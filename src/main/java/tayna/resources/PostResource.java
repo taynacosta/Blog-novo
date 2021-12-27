@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -60,7 +61,12 @@ public class PostResource {
 			return ResponseEntity.badRequest().body("Usuario nao tem permissao de postar em outro perfil " );
 		}
 		//validacao do tipo de post
-		/*{"legenda": "sobre o novo", "tipo": "TEXTO", "nomeUsuario" : "Maria", "usuarioId": 2 }*/
+		/*{"conteudo": "alterando comentario", "nomeUsuario" : "Tayna", "usuarioId": 1, "postId": 1, "usuario": {
+            "id": 2,
+           "email": "tayna@gmail.com",
+            "nomeUsuario": "Tayna",
+            "senha": "$2a$10$UARJcELvdY7krJxQO/sOwu.VuFZirT.jaKQB.sXidrt7344v.mbzS"
+        }}*/
 	}
 	
 	@PreAuthorize("hasAnyRole('ADMIN')")
@@ -86,6 +92,15 @@ public class PostResource {
 		 service.delete(id);
 		return ResponseEntity.noContent().build();
 		//so apaga quando n tem post, arrumar a parte de cascata com comentarios
+	}
+	
+	@PutMapping("/curtir/{id}")
+	public ResponseEntity<Post> putCurtirPostagem(@PathVariable Integer id) {
+		return ResponseEntity.status(HttpStatus.OK).body(service.like(id));
+	}
+	@PutMapping("/descurtir/{id}")
+	public ResponseEntity<Post> putDescurtirPostagem(@PathVariable Integer id){
+		return ResponseEntity.status(HttpStatus.OK).body(service.descurtir(id));
 	}
 	
 }

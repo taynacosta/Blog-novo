@@ -3,7 +3,9 @@ package tayna.services;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import tayna.domain.Post;
 import tayna.dto.PostDTO;
@@ -55,7 +57,7 @@ public class PostService {
 		var usuarioOptional = usuarioRepository.findById(postDTO.getUsuarioId());
 		var usuario = usuarioOptional.orElseThrow(() -> new IllegalArgumentException("Usuario invalido"));
 
-		return new Post(postDTO.getId(), postDTO.getLegenda(), postDTO.getTipo(), usuario);
+		return new Post(postDTO.getId(), postDTO.getLegenda(), postDTO.getTipo(), usuario, postDTO.getLikes());
 	}
 
 	public void updateDate(Post post, Post novoPost) {
@@ -73,4 +75,33 @@ public class PostService {
 	/*public List<Post> findAll() {
 		return postRepository.findAll();
 	}*/ // arrumar isso depois
+	
+	public Post like(Integer id) {
+		Post postagem = buscarPostagemPeloId(id);
+
+		postagem.setLikes(postagem.getLikes() + 1);
+		return postRepository.save(postagem);
+	}
+
+	public Post descurtir(Integer id) {
+		Post postagem = buscarPostagemPeloId(id);
+
+		if(postagem.getLikes() > 0) {
+			postagem.setLikes(postagem.getLikes() - 1);
+		} 
+		else {
+			postagem.setLikes(0);
+		}
+		return postRepository.save(postagem);
+	}
+	
+	private Post buscarPostagemPeloId(Integer id) {
+		Post postagemSalva = postRepository.findById(id).orElse(null);
+
+		if (postagemSalva == null) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Postagem não encontrada!", null);
+		}
+		return postagemSalva;
+	}
+
 }

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,7 +14,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import tayna.domain.enun.TipoDePost;
@@ -36,13 +36,17 @@ public class Post implements Serializable {
 	@OneToMany(cascade = CascadeType.ALL,mappedBy = "post")
 	private List <Comentario> comentarios = new ArrayList<>();
 	
+	@Column(columnDefinition = "integer default 0")
+	private int likes;
+	
 	public Post() {}
 
-	public Post(Integer id, String legenda, TipoDePost tipo, Usuario usuario) {
+	public Post(Integer id, String legenda, TipoDePost tipo, Usuario usuario, int likes) {
 		this.id = id;
 		this.legenda = legenda;
 		this.tipo = tipo;
 		this.usuario = usuario;
+		this.likes = likes;
 	}
 	
 	public Integer getId() {
@@ -111,5 +115,12 @@ public class Post implements Serializable {
 		return s == null || s.isEmpty();
 	}
 
-	
+		public int getLikes() {
+			return likes;
+		}
+
+		public void setLikes(int likes) {
+			this.likes = likes;
+		}
+
 }

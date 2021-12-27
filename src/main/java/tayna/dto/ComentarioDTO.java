@@ -34,26 +34,6 @@ public class ComentarioDTO implements Serializable {
 	
 	Comentario comentario = new Comentario();
 	
-	/*public ComentarioDTO(Integer id, String conteudo, Integer postId, String nomeUsuario, Integer usuarioId, Usuario usuario) {
-		this.id = id;
-		this.conteudo = conteudo;
-		this.postId = postId;
-		this.nomeUsuario = usuario.getNomeUsuario();
-		this.usuarioId = usuario.getId();
-		this.usuario = usuario;
-	}
-	
-	public ComentarioDTO() {}
-	
-	public ComentarioDTO (Comentario entity) {
-		this.id = entity.getId();
-		this.conteudo = entity.getConteudo();
-		this.nomeUsuario = entity.getNomeUsuario();
-		this.postId = entity.getPost().getId();
-		this.usuario = entity.getUsuario();
-		this.usuarioId = entity.getUsuario().getId();
-	}*/
-	
 	public ComentarioDTO(Integer id, String conteudo, Integer postId, Usuario usuario, String nomeUsuario) {
 		this.id = id;
 		this.conteudo = conteudo;

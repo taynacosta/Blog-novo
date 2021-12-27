@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.validation.constraints.NotBlank;
@@ -38,15 +39,19 @@ public class PostDTO implements Serializable{
 	
 	private String nomeUsuario;
 	
+	@Column(columnDefinition = "integer default 0")
+	private int likes;
+	
 	public PostDTO() {}
 
-	public PostDTO(Integer id, String legenda,/* List<Comentario> comentarios,*/ TipoDePost tipo, String nomeUsuario, Integer usuarioId) {
+	public PostDTO(Integer id, String legenda,/* List<Comentario> comentarios,*/ TipoDePost tipo, String nomeUsuario, Integer usuarioId, int likes) {
 		this.id = id;
 		this.legenda = legenda;
 		//this.comentarios = comentarios;
 		this.setTipo(tipo);
 		this.nomeUsuario = nomeUsuario;
 		this.usuarioId = usuario.getId();
+		this.likes = likes;
 	}
 	
 	public PostDTO(Post entity) {
@@ -63,7 +68,7 @@ public class PostDTO implements Serializable{
 	}
 	
 	public Post to(Usuario usuario) {
-		return new Post(this.id,this.legenda,this.tipo, usuario);
+		return new Post(this.id,this.legenda,this.tipo, usuario, this.likes);
 	
 	}
 	
@@ -166,7 +171,13 @@ public class PostDTO implements Serializable{
 			return false;
 		return true;
 	}
-	
-	
+
+	public int getLikes() {
+		return likes;
+	}
+
+	public void setLikes(int likes) {
+		this.likes = likes;
+	}
 	
 }
