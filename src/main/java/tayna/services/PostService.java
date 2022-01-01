@@ -29,8 +29,13 @@ public class PostService {
 	}
 
 	public Post find(Integer id) {
-		Optional<Post> obj = postRepository.findById(id);
-		return obj.orElseThrow(() -> new IllegalArgumentException("Objeto não encontrado! Id: " + id));
+		Optional<Post> optionalPost = postRepository.findById(id);
+		if(optionalPost.isEmpty()) {
+			 throw new IllegalArgumentException("Objeto não encontrado! Id: " + id);
+		}
+		var post = optionalPost.get();
+		post.defineQtdLikes();
+		return post;
 	}
 
 	public PostDTO insert(PostDTO postDto) {
@@ -57,13 +62,13 @@ public class PostService {
 		var usuarioOptional = usuarioRepository.findById(postDTO.getUsuarioId());
 		var usuario = usuarioOptional.orElseThrow(() -> new IllegalArgumentException("Usuario invalido"));
 
-		return new Post(postDTO.getId(), postDTO.getLegenda(), postDTO.getTipo(), usuario, postDTO.getLikes());
+		return new Post(postDTO.getId(), postDTO.getLegenda(), postDTO.getTipo(), usuario.getId());
 	}
 
 	public void updateDate(Post post, Post novoPost) {
 		post.setLegenda(novoPost.getLegenda());
 		post.setTipo(post.getTipo());
-		post.setUsuario(post.getUsuario());
+		/*post.setUsuario(post.getUsuario();*/
 	}
 
 	public Post update(Post post) {
@@ -75,33 +80,5 @@ public class PostService {
 	/*public List<Post> findAll() {
 		return postRepository.findAll();
 	}*/ // arrumar isso depois
-	
-	public Post like(Integer id) {
-		Post postagem = buscarPostagemPeloId(id);
-
-		postagem.setLikes(postagem.getLikes() + 1);
-		return postRepository.save(postagem);
-	}
-
-	public Post descurtir(Integer id) {
-		Post postagem = buscarPostagemPeloId(id);
-
-		if(postagem.getLikes() > 0) {
-			postagem.setLikes(postagem.getLikes() - 1);
-		} 
-		else {
-			postagem.setLikes(0);
-		}
-		return postRepository.save(postagem);
-	}
-	
-	private Post buscarPostagemPeloId(Integer id) {
-		Post postagemSalva = postRepository.findById(id).orElse(null);
-
-		if (postagemSalva == null) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Postagem não encontrada!", null);
-		}
-		return postagemSalva;
-	}
 
 }

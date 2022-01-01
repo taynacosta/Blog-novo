@@ -12,8 +12,12 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.jsonschema.JsonSerializableSchema;
 
 import tayna.domain.Comentario;
+import tayna.domain.Likes;
 import tayna.domain.Post;
 import tayna.domain.Usuario;
 import tayna.domain.enun.TipoDePost;
@@ -39,19 +43,22 @@ public class PostDTO implements Serializable{
 	
 	private String nomeUsuario;
 	
-	@Column(columnDefinition = "integer default 0")
-	private int likes;
+	/*@Column(columnDefinition = "integer default 0")
+	private Likes likes;*/
+	private List<Likes> likes = new ArrayList<>();
+	
+	private Integer qtdLikes;
 	
 	public PostDTO() {}
 
-	public PostDTO(Integer id, String legenda,/* List<Comentario> comentarios,*/ TipoDePost tipo, String nomeUsuario, Integer usuarioId, int likes) {
+	public PostDTO(Integer id, String legenda,/* List<Comentario> comentarios,*/ TipoDePost tipo, String nomeUsuario, Integer usuarioId, Integer qtdLikes) {
 		this.id = id;
 		this.legenda = legenda;
 		//this.comentarios = comentarios;
 		this.setTipo(tipo);
 		this.nomeUsuario = nomeUsuario;
 		this.usuarioId = usuario.getId();
-		this.likes = likes;
+		this.qtdLikes = qtdLikes;
 	}
 	
 	public PostDTO(Post entity) {
@@ -59,8 +66,8 @@ public class PostDTO implements Serializable{
 		this.legenda = entity.getLegenda();
 		this.comentarios = entity.getComentarios();
 		this.tipo = entity.getTipo();
-		this.usuario = entity.getUsuario();
-		this.usuarioId = entity.getUsuario().getId();
+		this.qtdLikes = entity.getQtdLikes();
+		this.likes = entity.getLikes();
 	}
 
 	public static PostDTO from(Post post) {
@@ -68,7 +75,7 @@ public class PostDTO implements Serializable{
 	}
 	
 	public Post to(Usuario usuario) {
-		return new Post(this.id,this.legenda,this.tipo, usuario, this.likes);
+		return new Post(this.id,this.legenda,this.tipo, usuario.getId());
 	
 	}
 	
@@ -172,11 +179,23 @@ public class PostDTO implements Serializable{
 		return true;
 	}
 
-	public int getLikes() {
+	/*public Likes getLikes() {
 		return likes;
 	}
 
-	public void setLikes(int likes) {
+	public void setLikes(Likes likes) {
+		this.likes = likes;
+	}*/
+	
+	public Integer getQtdLikes() {
+		return qtdLikes;
+	}
+
+	public List<Likes> getLikes() {
+		return likes;
+	}
+
+	public void setLikes(List<Likes> likes) {
 		this.likes = likes;
 	}
 	

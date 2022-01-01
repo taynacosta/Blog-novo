@@ -9,6 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import tayna.domain.Comentario;
+import tayna.domain.Likes;
 import tayna.domain.Perfil;
 import tayna.domain.Post;
 import tayna.domain.Usuario;
@@ -65,11 +66,11 @@ public class DBService {
 		
 		usuarioRepository.saveAll(Arrays.asList(us1, us2, us3, us4, us5));
 		
-		Post post1 = new Post(null, "linda casa", TipoDePost.FOTO, us1, 0);
-		Post post2 = new Post(null, "viagem no final de semana", TipoDePost.FOTO, us2, 0);
-		Post post3 = new Post(null, "eu e minha avó", TipoDePost.FOTO, us3, 0);
-		Post post4 = new Post(null, "sobre o ano novo", TipoDePost.TEXTO, us1, 0);
-		Post post5 = new Post(null, "atualizando ", TipoDePost.VIDEO, us2, 0);
+		Post post1 = new Post(null, "linda casa", TipoDePost.FOTO, us1.getId());
+		Post post2 = new Post(null, "viagem no final de semana", TipoDePost.FOTO, us2.getId());
+		Post post3 = new Post(null, "eu e minha avó", TipoDePost.FOTO, us3.getId());
+		Post post4 = new Post(null, "sobre o ano novo", TipoDePost.TEXTO, us1.getId());
+		Post post5 = new Post(null, "atualizando ", TipoDePost.VIDEO, us2.getId());
 	
 		postRepository.saveAll((Arrays.asList(post1, post2, post3, post4, post5)));
 		

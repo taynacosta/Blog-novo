@@ -1,14 +1,12 @@
 package tayna.resources;
 
 import java.net.URI;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -38,7 +36,7 @@ public class PostResource {
 	@Autowired
 	private PostService service;
 
-	@GetMapping("{id}")
+	@GetMapping("{id}") 
 	public ResponseEntity<?> find(@PathVariable Integer id) {
 		var postDto= service.find(id);
 		return ResponseEntity.ok().body(postDto);
@@ -72,6 +70,7 @@ public class PostResource {
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	@PutMapping("{id}")
 	public ResponseEntity<Object> putPost(@PathVariable Integer id, @RequestBody PostDTO postDTO, @AuthenticationPrincipal UserDetails logado) {
+		/*
 		Optional<Post> postId = repository.findById(id);
 		var postNovo = postId.orElseThrow(() -> new IllegalArgumentException("Id do Post invalido"));
 		if(postNovo.getUsuario().getNomeUsuario().equals(logado.getUsername())) {
@@ -84,6 +83,9 @@ public class PostResource {
 		}
 	    return ResponseEntity.noContent().build();
 	 // por mensagem de erro se tentar editar o tipo do texto
+	  * 
+	  */
+		return null;
 	}
 	
 	@PreAuthorize("hasAnyRole('ADMIN')")
@@ -92,15 +94,6 @@ public class PostResource {
 		 service.delete(id);
 		return ResponseEntity.noContent().build();
 		//so apaga quando n tem post, arrumar a parte de cascata com comentarios
-	}
-	
-	@PutMapping("/curtir/{id}")
-	public ResponseEntity<Post> putCurtirPostagem(@PathVariable Integer id) {
-		return ResponseEntity.status(HttpStatus.OK).body(service.like(id));
-	}
-	@PutMapping("/descurtir/{id}")
-	public ResponseEntity<Post> putDescurtirPostagem(@PathVariable Integer id){
-		return ResponseEntity.status(HttpStatus.OK).body(service.descurtir(id));
 	}
 	
 }

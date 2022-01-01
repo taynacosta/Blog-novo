@@ -5,16 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import tayna.domain.enun.TipoDePost;
 
@@ -23,32 +20,47 @@ public class Post implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	private String legenda;
-	
+
 	private TipoDePost tipo;
-	
-	@ManyToOne @JoinColumn(name="usuario_id") @JsonIgnoreProperties("perfil")
-	private Usuario usuario;
 
-	@OneToMany(cascade = CascadeType.ALL,mappedBy = "post")
-	private List <Comentario> comentarios = new ArrayList<>();
-	
-	@Column(columnDefinition = "integer default 0")
-	private int likes;
-	
-	public Post() {}
+	private Integer idUsuario;
 
-	public Post(Integer id, String legenda, TipoDePost tipo, Usuario usuario, int likes) {
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "post")
+	private List<Comentario> comentarios = new ArrayList<>();
+
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "post")
+	@JsonIgnore
+	private List<Likes> likes = new ArrayList<>();
+
+	private Integer qtdLikes;
+
+	public Post() {
+	}
+
+	public Post(Integer id, String legenda, TipoDePost tipo, Integer idUsuario) {
 		this.id = id;
 		this.legenda = legenda;
 		this.tipo = tipo;
-		this.usuario = usuario;
-		this.likes = likes;
+		this.idUsuario = idUsuario;
+		defineQtdLikes();
 	}
-	
+
+	public Integer defineQtdLikes() {
+		return this.qtdLikes = likes.size();
+	}
+
+	public void setQtdLikes(Integer qtdLikes) {
+		this.qtdLikes = qtdLikes;
+	}
+
+	public Integer getQtdLikes() {
+		return qtdLikes;
+	}
+
 	public Integer getId() {
 		return id;
 	}
@@ -73,14 +85,6 @@ public class Post implements Serializable {
 		this.tipo = tipo;
 	}
 
-	public Usuario getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
-	
 	public List<Comentario> getComentarios() {
 		return comentarios;
 	}
@@ -89,38 +93,16 @@ public class Post implements Serializable {
 		this.comentarios = comentarios;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + id;
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Post other = (Post) obj;
-		if (id != other.id)
-			return false;
-		return true;
-	}
-
-		public boolean isNullOrNotEmpty(String s) {
+	public boolean isNullOrNotEmpty(String s) {
 		return s == null || s.isEmpty();
 	}
 
-		public int getLikes() {
-			return likes;
-		}
+	public List<Likes> getLikes() {
+		return likes;
+	}
 
-		public void setLikes(int likes) {
-			this.likes = likes;
-		}
+	public void setLikes(List<Likes> likes) {
+		this.likes = likes;
+	}
 
 }

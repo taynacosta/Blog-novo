@@ -19,6 +19,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import tayna.domain.enun.TipoAutorizacao;
 
 @Entity
@@ -39,13 +41,15 @@ public class Usuario implements Serializable {
 	
 	@OneToOne
 	private Perfil perfil;
-	
-	@OneToMany(cascade = CascadeType.ALL,mappedBy="usuario")
-	private List <Post> post = new ArrayList<>();
-	
+
 	@ElementCollection(fetch=FetchType.EAGER)
 	@CollectionTable(name="TIPOAUTORIZACAO")
 	private Set<Integer> tipoAut = new HashSet<>();
+	
+	@OneToMany(cascade = CascadeType.ALL,mappedBy="usuario")
+	@JsonIgnore
+	private List <Likes> likes = new ArrayList<>();
+
 
 	public Usuario(){
 		addTipoAut(TipoAutorizacao.ADMIN);
@@ -91,15 +95,6 @@ public class Usuario implements Serializable {
 		this.email = email;
 	}
 
-	public List<Post> getPost(List<Post> list) {
-		return post;
-	}
-
-	public void setPost(List<Post> post) {
-		this.post = post;
-	}
-
-
 	public Perfil getPerfil() {
 		return perfil;
 	}
@@ -116,41 +111,18 @@ public class Usuario implements Serializable {
 		tipoAut.add(tipo.getCod());
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((nomeUsuario == null) ? 0 : nomeUsuario.hashCode());
-		result = prime * result + ((perfil == null) ? 0 : perfil.hashCode());
-		return result;
+	public List<Likes> getLikes() {
+		return likes;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Usuario other = (Usuario) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (nomeUsuario == null) {
-			if (other.nomeUsuario != null)
-				return false;
-		} else if (!nomeUsuario.equals(other.nomeUsuario))
-			return false;
-		if (perfil == null) {
-			if (other.perfil != null)
-				return false;
-		} else if (!perfil.equals(other.perfil))
-			return false;
-		return true;
+	public void setLikes(List<Likes> likes) {
+		this.likes = likes;
 	}
+
+
+	public void setTipoAut(Set<Integer> tipoAut) {
+		this.tipoAut = tipoAut;
+	}
+
 	
 }
