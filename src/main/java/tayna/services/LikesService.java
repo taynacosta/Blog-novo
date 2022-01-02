@@ -1,6 +1,7 @@
 package tayna.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -50,6 +51,16 @@ public class LikesService {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Postagem não encontrada!", null);
 		}
 		return postagemSalva;
+	}
+
+	public List<Likes> find(Integer id) {
+		 var postagem = buscarPostagemPeloId(id);
+
+		List<Likes> optionalLikes = likesRepository.findAllByPost(postagem);
+		if(optionalLikes == null) {
+			 throw new IllegalArgumentException("Objeto não encontrado! Id: " + id);
+		}
+		return optionalLikes;
 	}
 
 }

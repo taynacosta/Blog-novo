@@ -93,10 +93,6 @@ public class Post implements Serializable {
 		this.comentarios = comentarios;
 	}
 
-	public boolean isNullOrNotEmpty(String s) {
-		return s == null || s.isEmpty();
-	}
-
 	public List<Likes> getLikes() {
 		return likes;
 	}
