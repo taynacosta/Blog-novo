@@ -20,7 +20,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreType;
 
 import tayna.domain.enun.TipoAutorizacao;
 
@@ -32,17 +31,19 @@ public class Usuario implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	
-	@Column(unique=true)
+	@Column(unique=true) @JsonIgnore
 	private String email;
 	
 	@Column(unique=true)
 	private String nomeUsuario;
 	
+	@JsonIgnore
 	private String senha;
 	
 	@OneToOne
 	private Perfil perfil;
 
+	@JsonIgnore
 	@ElementCollection(fetch=FetchType.EAGER)
 	@CollectionTable(name="TIPOAUTORIZACAO")
 	private Set<Integer> tipoAut = new HashSet<>();

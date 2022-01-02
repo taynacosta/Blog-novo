@@ -49,8 +49,10 @@ public class Perfil implements Serializable {
 	
 	private Double sexy;
 	
+	@JsonIgnore
 	private String nome;
 	
+	@JsonIgnore
 	private String sobrenome;
 	
 	public Perfil() {}
