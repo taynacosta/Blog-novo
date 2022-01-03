@@ -45,7 +45,7 @@ public class Post implements Serializable {
 		this.id = id;
 		this.legenda = legenda;
 		this.tipo = tipo;
-		this.idUsuario = idUsuario;
+		this.setIdUsuario(idUsuario);
 		defineQtdLikes();
 	}
 
@@ -99,6 +99,14 @@ public class Post implements Serializable {
 
 	public void setLikes(List<Likes> likes) {
 		this.likes = likes;
+	}
+
+	public Integer getIdUsuario() {
+		return idUsuario;
+	}
+
+	public void setIdUsuario(Integer idUsuario) {
+		this.idUsuario = idUsuario;
 	}
 
 }

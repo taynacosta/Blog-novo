@@ -1,11 +1,13 @@
 package tayna.services;
 
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import tayna.domain.Post;
+import tayna.domain.Usuario;
 import tayna.dto.PostDTO;
 import tayna.repositories.PostRepository;
 import tayna.repositories.UsuarioRepository;
@@ -75,8 +77,10 @@ public class PostService {
 		return postRepository.save(novoPost);
 	}
 
-	/*public List<Post> findAll() {
-		return postRepository.findAll();
-	}*/ // arrumar isso depois
-
+	public Stream<Usuario> achaUsuarioPorId(Post postagem, Usuario usuario) {
+		Stream<Usuario> stream = Stream.of(usuario);
+		
+		stream.filter((s) -> s.getId().equals(postagem.getIdUsuario()));
+		return stream;
+	}
 }

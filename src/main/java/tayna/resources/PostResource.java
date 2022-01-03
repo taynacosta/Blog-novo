@@ -1,6 +1,7 @@
 package tayna.resources;
 
 import java.net.URI;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -22,8 +23,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import tayna.domain.Post;
+import tayna.domain.Usuario;
 import tayna.dto.PostDTO;
 import tayna.repositories.PostRepository;
+import tayna.repositories.UsuarioRepository;
 import tayna.services.PostService;
 
 @RestController
@@ -31,7 +34,10 @@ import tayna.services.PostService;
 public class PostResource {
 	
 	@Autowired
-	PostRepository repository;
+	PostRepository postRepository;
+	
+	@Autowired
+	UsuarioRepository usuarioRepository;
 	
 	@Autowired
 	private PostService service;
@@ -44,7 +50,7 @@ public class PostResource {
 	
 	@GetMapping
 	public ResponseEntity<Page<Post>> list(Pageable pageable){
-		return ResponseEntity.ok(repository.findAll(pageable));
+		return ResponseEntity.ok(postRepository.findAll(pageable));
 	}
 
 	@PreAuthorize("hasAnyRole('ADMIN')")
@@ -70,10 +76,12 @@ public class PostResource {
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	@PutMapping("{id}")
 	public ResponseEntity<Object> putPost(@PathVariable Integer id, @RequestBody PostDTO postDTO, @AuthenticationPrincipal UserDetails logado) {
-		/*
-		Optional<Post> postId = repository.findById(id);
+		
+		Optional<Post> postId = postRepository.findById(id);
 		var postNovo = postId.orElseThrow(() -> new IllegalArgumentException("Id do Post invalido"));
-		if(postNovo.getUsuario().getNomeUsuario().equals(logado.getUsername())) {
+		Usuario usuario = usuarioRepository.findById(id).get();
+		if(usuario.getNomeUsuario().equals(logado.getUsername())) {
+
 		Post post = service.fromDTO(postDTO);
 	    post.setId(id);
 	    service.update(post);
@@ -82,10 +90,10 @@ public class PostResource {
 			return ResponseEntity.badRequest().body("Usuario nao tem permissao de editar um post que não é seu " );
 		}
 	    return ResponseEntity.noContent().build();
+	    //{"legenda": "lindx casx", "tipo": "TEXTO", "usuarioId": 1}
 	 // por mensagem de erro se tentar editar o tipo do texto
-	  * 
-	  */
-		return null;
+	  
+		
 	}
 	
 	@PreAuthorize("hasAnyRole('ADMIN')")
