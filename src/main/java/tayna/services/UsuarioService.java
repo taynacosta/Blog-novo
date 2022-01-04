@@ -44,8 +44,6 @@ public class UsuarioService {
 	}
 
 	public UsuarioDTO insert(UsuarioDTO usuarioDTO) {
-		//usuarioDTO.setId(null);
-		//Usuario usuario = new Usuario();
 		Usuario usuario = usuarioDTO.to();
 		usuarioRepository.save(usuario);
 		return UsuarioDTO.from(usuario);

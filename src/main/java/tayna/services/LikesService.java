@@ -1,7 +1,7 @@
 package tayna.services;
 
+import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,12 +36,8 @@ public class LikesService {
 		  
 	public void descurtir(Integer id, UserDetails logado) {
 		 var postagem = buscarPostagemPeloId(id);
-		 var usuario = usuarioRepository.findByNomeUsuario(logado.getUsername());
-		 //ver pq n ta funcionando
-		 List<Likes> likesPost = likesRepository.findAllByPost(postagem);
-		 for (Likes likes : likesPost) {
-				postagem.getLikes().remove(likes);
-		}
+		Likes likeDoUsuario =  likesRepository.findByPost(postagem).get();
+		 likesRepository.delete(likeDoUsuario);
 		 postRepository.save(postagem);
 	}
 	
@@ -55,7 +51,6 @@ public class LikesService {
 
 	public List<Likes> find(Integer id) {
 		 var postagem = buscarPostagemPeloId(id);
-
 		List<Likes> optionalLikes = likesRepository.findAllByPost(postagem);
 		if(optionalLikes == null) {
 			 throw new IllegalArgumentException("Objeto não encontrado! Id: " + id);

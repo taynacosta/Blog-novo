@@ -28,7 +28,6 @@ public class UsuarioDTO  implements Serializable{
 	@NotEmpty(message="Preenchimento obrigatório")
 	private String senha;
 	
-	//@Email @NotNull(message="O campo email é de preenchimento obrigatório")
 	private String email;
 	
 	private Perfil perfil;
@@ -90,57 +89,14 @@ public class UsuarioDTO  implements Serializable{
 		this.email = email;
 	}
 
-	public static UsuarioDTO from(Usuario usuario) {
-		return new UsuarioDTO(usuario);
-	}
 	public Perfil getPerfil() {
 		return perfil;
 	}
 	public void setPerfil(Perfil perfil) {
 		this.perfil = perfil;
 	}
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((nomeUsuario == null) ? 0 : nomeUsuario.hashCode());
-		result = prime * result + ((perfil == null) ? 0 : perfil.hashCode());
-		return result;
-	}
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		UsuarioDTO other = (UsuarioDTO) obj;
-		if (email == null) {
-			if (other.email != null)
-				return false;
-		} else if (!email.equals(other.email))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (nomeUsuario == null) {
-			if (other.nomeUsuario != null)
-				return false;
-		} else if (!nomeUsuario.equals(other.nomeUsuario))
-			return false;
-		if (perfil == null) {
-			if (other.perfil != null)
-				return false;
-		} else if (!perfil.equals(other.perfil))
-			return false;
-		return true;
-	}
 	
-	
-
+	public static UsuarioDTO from(Usuario usuario) {
+		return new UsuarioDTO(usuario);
+	}
 }

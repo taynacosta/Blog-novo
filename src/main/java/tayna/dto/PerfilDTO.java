@@ -31,8 +31,6 @@ public class PerfilDTO implements Serializable{
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
 	private Integer idade;
 	
-	//private Usuario usuario;
-	
 	private String resumo;
 	
 	private Double legal;
@@ -121,14 +119,6 @@ public class PerfilDTO implements Serializable{
 	public void setIdade(Integer idade) {
 		this.idade = idade;
 	}
-	
-/*	public Usuario getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}*/
 
 	public String getResumo() {
 		return resumo;
@@ -136,30 +126,6 @@ public class PerfilDTO implements Serializable{
 
 	public void setResumo(String resumo) {
 		this.resumo = resumo;
-	}
-
-	public Double getLegal() {
-		return legal;
-	}
-
-	public void setLegal(Double legal) {
-		this.legal = legal;
-	}
-
-	public Double getConfiavel() {
-		return confiavel;
-	}
-
-	public void setConfiavel(Double confiavel) {
-		this.confiavel = confiavel;
-	}
-
-	public Double getSexy() {
-		return sexy;
-	}
-
-	public void setSexy(Double sexy) {
-		this.sexy = sexy;
 	}
 
 	public String getNome() {

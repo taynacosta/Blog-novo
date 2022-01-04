@@ -16,5 +16,5 @@ public interface PostRepository extends PagingAndSortingRepository<Post, Integer
 	Page<Post> findAll(Pageable pageable);
 
 	Optional<Post> findById(Long id);
-	
+
 }

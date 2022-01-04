@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -39,7 +40,7 @@ public class LikesResource {
 		else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Voce ja curtiu isso");
 	}
 	
-	@PutMapping("/descurtir/{id}")
+	@DeleteMapping("/descurtir/{id}")
 	public ResponseEntity<?> putDescurtirPostagem(@PathVariable Integer id, @AuthenticationPrincipal UserDetails logado){
 		service.descurtir(id, logado);
 		return ResponseEntity.status(HttpStatus.OK).body("Descurtido");
@@ -51,7 +52,6 @@ public class LikesResource {
 		Post post = new Post();
 		post.defineQtdLikes();
 		return ResponseEntity.ok().body(curtidas);
-
 		
 	}
 
