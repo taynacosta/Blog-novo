@@ -12,9 +12,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import tayna.domain.Likes;
 import tayna.domain.Post;
+import tayna.domain.Usuario;
 import tayna.repositories.LikesRepository;
 import tayna.repositories.PostRepository;
+import tayna.repositories.UsuarioRepository;
 import tayna.services.LikesService;
 
 @RestController
@@ -32,7 +35,7 @@ public class LikesResource {
 
 	@PutMapping("/curtir/{id}")
 	public ResponseEntity<?> putCurtirPostagem(@PathVariable Integer id, @AuthenticationPrincipal UserDetails logado) {
-		var postagem = service.buscarPostagemPeloId(id);
+		var postagem = postRepository.findById(id).get();
 		if(!postagem.getLikes().stream().anyMatch(like-> like.getUsuario().getNomeUsuario().equals(logado.getUsername()))) {
 				service.curtir(id, logado);
 		return ResponseEntity.status(HttpStatus.OK).body("Curtido");
@@ -40,10 +43,16 @@ public class LikesResource {
 		else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Voce ja curtiu isso");
 	}
 	
-	@DeleteMapping("/descurtir/{id}")
+	@PutMapping("/descurtir/{id}")
 	public ResponseEntity<?> putDescurtirPostagem(@PathVariable Integer id, @AuthenticationPrincipal UserDetails logado){
-		service.descurtir(id, logado);
-		return ResponseEntity.status(HttpStatus.OK).body("Descurtido");
+		try {
+			service.descurtir(id, logado);
+			return ResponseEntity.status(HttpStatus.OK).body("Descurtido");
+		}
+		catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Voce nao curtiu esse post");
+		}
+		
 	}
 	
 	@GetMapping("posts/{id}")
@@ -52,7 +61,6 @@ public class LikesResource {
 		Post post = new Post();
 		post.defineQtdLikes();
 		return ResponseEntity.ok().body(curtidas);
-		
 	}
 
 }
