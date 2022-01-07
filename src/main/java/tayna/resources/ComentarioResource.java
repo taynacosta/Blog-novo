@@ -2,7 +2,6 @@ package tayna.resources;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
@@ -25,7 +24,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tayna.domain.Comentario;
 import tayna.domain.Post;
 import tayna.dto.ComentarioDTO;
-import tayna.repositories.ComentarioRepository;
 import tayna.services.ComentarioService;
 
 @RestController
@@ -36,9 +34,6 @@ public class ComentarioResource {
 	private ComentarioService service;
 	
 	Post post = new Post();
-	
-	@Autowired
-	ComentarioRepository repository;
 
 	//metodo dando erro, arrumar depois do put
 	@GetMapping
@@ -71,8 +66,7 @@ public class ComentarioResource {
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	@PutMapping("{id}")
 	public ResponseEntity<Object> put(@PathVariable Integer id, @RequestBody ComentarioDTO comentarioDTO , @AuthenticationPrincipal UserDetails logado) {
-		Optional<Comentario> comentarioId = repository.findById(id);
-		var comentarioNovo = comentarioId.orElseThrow(() -> new IllegalArgumentException("Id do comentario invalido"));
+		var comentarioNovo = service.find(id);
 		if(comentarioNovo.getUsuario().getNomeUsuario().equals(logado.getUsername())) {
 	    Comentario comentario = service.fromDTO(comentarioDTO);
 	    comentario.setId(id);
@@ -80,7 +74,7 @@ public class ComentarioResource {
 	    return ResponseEntity.noContent().build();
 		}
 		else {
-			return ResponseEntity.badRequest().body("Usuario nao tem permissao de editar um post que não é seu " );
+			return ResponseEntity.badRequest().body("Usuario nao tem permissao de editar um comentario que não é seu " );
 		}
 	    //{"conteudo": "alterando comentario","postId": 1}
 	}
@@ -90,6 +84,5 @@ public class ComentarioResource {
 	public ResponseEntity<Void> delete(@PathVariable Integer id){
 		 service.delete(id);
 		return ResponseEntity.noContent().build();
-		//ok
 	}
 }
