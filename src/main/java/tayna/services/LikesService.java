@@ -33,7 +33,6 @@ public class LikesService {
 	public void descurtir(Integer id, UserDetails logado) {
 		 var postagem = postRepository.findById(id).get();
 		Likes likeDoUsuario =  likesRepository.findByPost(postagem).get();
-		 
 		likesRepository.delete(likeDoUsuario);
 		postRepository.save(postagem);
 	}

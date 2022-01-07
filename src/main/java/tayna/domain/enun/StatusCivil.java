@@ -25,7 +25,6 @@ public enum StatusCivil {
 		return descricao;
 	}
 	
-
 	public boolean isNotValid(StatusCivil tipo) {
 		 if (tipo == null) {
 		      throw new ObjectNotFoundException("Tipo de status civil invalido");

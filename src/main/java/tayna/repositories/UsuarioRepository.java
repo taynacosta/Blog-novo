@@ -17,5 +17,4 @@ public interface UsuarioRepository extends PagingAndSortingRepository<Usuario, I
 	
 	Page<Usuario> findAll(Pageable pageable);
 
-
 }

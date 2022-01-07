@@ -1,8 +1,6 @@
 package tayna.dto;
 
 import java.io.Serializable;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,12 +9,9 @@ import javax.persistence.Id;
 import tayna.domain.Comentario;
 import tayna.domain.Post;
 import tayna.domain.Usuario;
-import tayna.repositories.UsuarioRepository;
 
 public class ComentarioDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
-	UsuarioRepository service;
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)

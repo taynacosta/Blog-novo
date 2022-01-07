@@ -52,7 +52,6 @@ public class Usuario implements Serializable {
 	@JsonIgnore
 	private List <Likes> likes = new ArrayList<>();
 
-
 	public Usuario(){
 		addTipoAut(TipoAutorizacao.ADMIN);
 	}
@@ -121,10 +120,8 @@ public class Usuario implements Serializable {
 		this.likes = likes;
 	}
 
-
 	public void setTipoAut(Set<Integer> tipoAut) {
 		this.tipoAut = tipoAut;
 	}
 
-	
 }

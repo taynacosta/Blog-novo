@@ -36,9 +36,6 @@ public class Perfil implements Serializable {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
 	private Integer idade;
 	
-	/*@OneToOne @JoinColumn(name="usuario_id")
-	private Usuario usuario;*/
-	
 	private String resumo;
 	
 	private Double legal;
@@ -84,11 +81,6 @@ public class Perfil implements Serializable {
 	public void setGenero(Genero genero) {
 		this.genero = genero;
 	}
-
-	//@JsonProperty(access = Access.WRITE_ONLY)
-	/*public Usuario getUsuario() {
-		return usuario;
-	}*/
 
 	@JsonProperty(access = Access.WRITE_ONLY)
 	public Date getDataNascimento() {

@@ -69,6 +69,5 @@ public class ComentarioService {
 	public void delete(Integer id) {
 		find(id);
 		comentarioRepository.deleteById(id);
-		
 	}
 }

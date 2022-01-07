@@ -49,14 +49,6 @@ public class UsuarioDTO  implements Serializable{
 		this.perfil = perfil;
 	}
 
-	//construtor para o get
-	public UsuarioDTO(Integer id, String nomeUsuario, String email, Perfil perfil) {
-		this.id = id;
-		this.nomeUsuario = nomeUsuario;
-		this.email = email;
-		this.perfil = perfil;
-	}
-
 	public Integer getId() {
 		return id;
 	}
@@ -99,4 +91,5 @@ public class UsuarioDTO  implements Serializable{
 	public static UsuarioDTO from(Usuario usuario) {
 		return new UsuarioDTO(usuario);
 	}
+	
 }
