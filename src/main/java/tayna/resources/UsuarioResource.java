@@ -21,7 +21,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import tayna.domain.Usuario;
 import tayna.dto.UsuarioDTO;
-import tayna.repositories.UsuarioRepository;
 import tayna.services.UsuarioService;
 
 @RestController
@@ -29,14 +28,12 @@ import tayna.services.UsuarioService;
 public class UsuarioResource {
 	
 	@Autowired
-	UsuarioRepository usuarioRepository;
-	
-	@Autowired
 	private UsuarioService service;
 	
 	@GetMapping
 	public ResponseEntity<Page<Usuario>> list(Pageable pageable){
-		return ResponseEntity.ok(usuarioRepository.findAll(pageable));
+		Page<Usuario> usuario = service.encontrarPorPagina(pageable);
+		return ResponseEntity.ok(usuario);
 	}//http://localhost:8083/usuarios?page=0&size=2
 	
 	@GetMapping("{id}")
