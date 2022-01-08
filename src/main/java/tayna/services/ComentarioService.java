@@ -55,15 +55,11 @@ public class ComentarioService {
 
 	public Comentario update(Comentario comentario) {
 		Comentario novoComentario = find(comentario.getId());
-		updateDate (novoComentario, comentario);
+		comentario.setId(novoComentario.getId());
+		novoComentario.setConteudo(comentario.getConteudo());
+		comentario.setPost(comentario.getPost());
+		comentario.setUsuario(comentario.getUsuario());
 		return comentarioRepository.save(novoComentario);
-	}
-
-	private void updateDate(Comentario novoComentario, Comentario comentario) {
-	comentario.setId(novoComentario.getId());
-	novoComentario.setConteudo(comentario.getConteudo());
-	comentario.setPost(comentario.getPost());
-	comentario.setUsuario(comentario.getUsuario());
 	}
 
 	public void delete(Integer id) {

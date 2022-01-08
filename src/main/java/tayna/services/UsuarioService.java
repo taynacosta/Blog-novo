@@ -31,10 +31,10 @@ public class UsuarioService {
 	@Autowired
 	private BCryptPasswordEncoder pe;
 
-	public UsuarioService(UsuarioResource resource, UsuarioRepository repository) {
+	/*public UsuarioService(UsuarioResource resource, UsuarioRepository repository) {
 		this.usuarioResource = resource;
 		this.usuarioRepository = repository;
-	}
+	}*/
 
 	public Usuario find(Integer id) {
 		Optional<Usuario> obj = usuarioRepository.findById(id);

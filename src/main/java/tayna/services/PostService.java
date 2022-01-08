@@ -40,7 +40,6 @@ public class PostService {
 
 	public PostDTO insert(PostDTO postDto) {
 		var usuarioOptional = usuarioRepository.findById(postDto.getUsuarioId());
-		//verificar usuario autenticado aqui
 		var usuario = usuarioOptional.orElseThrow(() -> new IllegalArgumentException("Usuario invalido"));
 		var post = postDto.to(usuario);
 		postRepository.save(post);
@@ -58,23 +57,17 @@ public class PostService {
 	}*/
 
 	public Post fromDTO(PostDTO postDTO) {
-		Post post = new Post();
 		var usuarioOptional = usuarioRepository.findById(postDTO.getUsuarioId());
 		var usuario = usuarioOptional.orElseThrow(() -> new IllegalArgumentException("Usuario invalido"));
 
 		return new Post(postDTO.getId(), postDTO.getLegenda(), postDTO.getTipo(), usuario.getId());
 	}
 
-	public void updateDate(Post post, Post novoPost) {
-		post.setLegenda(novoPost.getLegenda());
-		post.setTipo(post.getTipo());
-		/*post.setUsuario(post.getUsuario();*/
-	}
-
 	public Post update(Post post) {
-		Post novoPost = find(post.getId());
-		updateDate(novoPost, post);
-		return postRepository.save(novoPost);
+		Post postAntigo = find(post.getId());
+		postAntigo.setLegenda(post.getLegenda());
+		postAntigo.setTipo(postAntigo.getTipo());
+		return postRepository.save(postAntigo);
 	}
 
 	public Stream<Usuario> achaUsuarioPorId(Post postagem, Usuario usuario) {

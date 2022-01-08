@@ -1,7 +1,6 @@
 package tayna.resources;
 
 import java.net.URI;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -26,8 +25,8 @@ import tayna.domain.Post;
 import tayna.domain.Usuario;
 import tayna.dto.PostDTO;
 import tayna.repositories.PostRepository;
-import tayna.repositories.UsuarioRepository;
 import tayna.services.PostService;
+import tayna.services.UsuarioService;
 
 @RestController
 @RequestMapping(value="/posts")
@@ -37,14 +36,14 @@ public class PostResource {
 	PostRepository postRepository;
 	
 	@Autowired
-	UsuarioRepository usuarioRepository;
+	private PostService postService;
 	
 	@Autowired
-	private PostService service;
+	private UsuarioService usuarioService;
 
 	@GetMapping("{id}") 
 	public ResponseEntity<?> find(@PathVariable Integer id) {
-		var postDto= service.find(id);
+		var postDto= postService.find(id);
 		return ResponseEntity.ok().body(postDto);
 	}
 	
@@ -57,7 +56,7 @@ public class PostResource {
 	@PostMapping
 	public ResponseEntity<?> insert(@Valid @RequestBody PostDTO postDTO, @AuthenticationPrincipal UserDetails logado){
 		if(postDTO.getNomeUsuario().equals(logado.getUsername())) {
-		var postDto = service.insert(postDTO);
+		var postDto = postService.insert(postDTO);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(postDto.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 		}
@@ -76,30 +75,23 @@ public class PostResource {
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	@PutMapping("{id}")
 	public ResponseEntity<Object> putPost(@PathVariable Integer id, @RequestBody PostDTO postDTO, @AuthenticationPrincipal UserDetails logado) {
-		
-		Optional<Post> postId = postRepository.findById(id);
-		var postNovo = postId.orElseThrow(() -> new IllegalArgumentException("Id do Post invalido"));
-		Usuario usuario = usuarioRepository.findById(id).get();
+		Usuario usuario = usuarioService.find(id);
 		if(usuario.getNomeUsuario().equals(logado.getUsername())) {
-
-		Post post = service.fromDTO(postDTO);
-	    post.setId(id);
-	    service.update(post);
+			Post post = postService.fromDTO(postDTO);
+		    post.setId(id);
+		    postService.update(post);
 		}
 		else {
 			return ResponseEntity.badRequest().body("Usuario nao tem permissao de editar um post que não é seu " );
 		}
-	    return ResponseEntity.noContent().build();
+	    	return ResponseEntity.noContent().build();
 	    //{"legenda": "lindx casx", "tipo": "TEXTO", "usuarioId": 1}
-	 // por mensagem de erro se tentar editar o tipo do texto
-	  
-		
 	}
 	
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	@DeleteMapping("{id}")
 	public ResponseEntity<Void> delete(@PathVariable Integer id){
-		 service.delete(id);
+		 postService.delete(id);
 		return ResponseEntity.noContent().build();
 		//so apaga quando n tem post, arrumar a parte de cascata com comentarios
 	}

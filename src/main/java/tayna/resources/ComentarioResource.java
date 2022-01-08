@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import tayna.domain.Comentario;
-import tayna.domain.Post;
 import tayna.dto.ComentarioDTO;
 import tayna.services.ComentarioService;
 
@@ -32,8 +31,6 @@ public class ComentarioResource {
 	
 	@Autowired
 	private ComentarioService service;
-	
-	Post post = new Post();
 
 	//metodo dando erro, arrumar depois do put
 	@GetMapping

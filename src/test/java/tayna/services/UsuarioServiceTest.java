@@ -53,7 +53,7 @@ class UsuarioServiceTest {
 		us1 = new UsuarioDTO(1, "Tayna", "123", "tayna@gmail.com", pf1);
 		
 		MockitoAnnotations.openMocks(this);
-		this.service = new UsuarioService(resource, repository);
+		//this.service = new UsuarioService(resource, repository);
 	}
 		
 		@Test
