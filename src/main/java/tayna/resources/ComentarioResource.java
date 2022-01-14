@@ -32,7 +32,6 @@ public class ComentarioResource {
 	@Autowired
 	private ComentarioService service;
 
-	//metodo dando erro, arrumar depois do put
 	@GetMapping
 	public ResponseEntity<List<ComentarioDTO>> findAll(Integer id) {
 		List<Comentario> list = service.findAll();

@@ -37,7 +37,6 @@ public class Usuario implements Serializable {
 	@Column(unique=true)
 	private String nomeUsuario;
 	
-	@JsonIgnore
 	private String senha;
 	
 	@OneToOne

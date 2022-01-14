@@ -10,6 +10,13 @@ public class CredenciaisDTO implements Serializable {
 
 	public CredenciaisDTO() {
 	}
+	
+
+	public CredenciaisDTO(String nomeUsuario, String senha) {
+		this.nomeUsuario = nomeUsuario;
+		this.senha = senha;
+	}
+
 
 	public String getnomeUsuario() {
 		return nomeUsuario;

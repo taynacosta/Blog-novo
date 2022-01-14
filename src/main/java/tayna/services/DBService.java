@@ -9,7 +9,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import tayna.domain.Comentario;
-import tayna.domain.Likes;
 import tayna.domain.Perfil;
 import tayna.domain.Post;
 import tayna.domain.Usuario;

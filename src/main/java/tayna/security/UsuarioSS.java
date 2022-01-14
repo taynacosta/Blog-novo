@@ -47,6 +47,18 @@ public class UsuarioSS implements UserDetails {
 		return email;
 	}
 
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+	
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
+		this.authorities = authorities;
+	}
+
 	@Override
 	public boolean isAccountNonExpired() {
 		return true;

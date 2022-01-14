@@ -93,7 +93,6 @@ public class PostResource {
 	public ResponseEntity<Void> delete(@PathVariable Integer id){
 		 postService.delete(id);
 		return ResponseEntity.noContent().build();
-		//so apaga quando n tem post, arrumar a parte de cascata com comentarios
 	}
 	
 }

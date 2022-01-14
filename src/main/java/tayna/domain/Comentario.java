@@ -66,7 +66,7 @@ public class Comentario implements Serializable {
 	}	
 
 	public String getNomeUsuario() {
-		return nomeUsuario;
+		return this.usuario.getNomeUsuario();
 	}
 
 	public Usuario getUsuario() {

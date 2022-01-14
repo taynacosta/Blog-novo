@@ -29,11 +29,7 @@ public class PostService {
 	}
 
 	public Post find(Integer id) {
-		Optional<Post> optionalPost = postRepository.findById(id);
-		if(optionalPost.isEmpty()) {
-			 throw new IllegalArgumentException("Objeto não encontrado! Id: " + id);
-		}
-		var post = optionalPost.get();
+		Post post = postRepository.findById(id).get();
 		post.defineQtdLikes();
 		return post;
 	}

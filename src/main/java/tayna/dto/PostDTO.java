@@ -5,16 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.jsonschema.JsonSerializableSchema;
 
 import tayna.domain.Comentario;
 import tayna.domain.Likes;
@@ -43,20 +39,17 @@ public class PostDTO implements Serializable{
 	
 	private String nomeUsuario;
 	
-	/*@Column(columnDefinition = "integer default 0")
-	private Likes likes;*/
 	private List<Likes> likes = new ArrayList<>();
 	
 	private Integer qtdLikes;
 	
 	public PostDTO() {}
 
-	public PostDTO(Integer id, String legenda,/* List<Comentario> comentarios,*/ TipoDePost tipo, String nomeUsuario, Integer usuarioId, Integer qtdLikes) {
+	public PostDTO(Integer id, String legenda,TipoDePost tipo, String nomeUsuario, Integer usuarioId, Integer qtdLikes) {
 		this.id = id;
 		this.legenda = legenda;
-		//this.comentarios = comentarios;
 		this.setTipo(tipo);
-		this.nomeUsuario = nomeUsuario;
+		this.nomeUsuario = usuario.getNomeUsuario();
 		this.usuarioId = usuario.getId();
 		this.qtdLikes = qtdLikes;
 	}

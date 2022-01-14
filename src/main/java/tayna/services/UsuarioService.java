@@ -1,8 +1,5 @@
 package tayna.services;
 
-import java.util.List;
-import java.util.Optional;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +12,8 @@ import org.springframework.stereotype.Service;
 
 import tayna.domain.Usuario;
 import tayna.dto.UsuarioDTO;
+import tayna.repositories.PerfilRepository;
 import tayna.repositories.UsuarioRepository;
-import tayna.resources.UsuarioResource;
-import tayna.services.exceptions.ObjectNotFoundException;
 
 @Service
 public class UsuarioService {
@@ -26,7 +22,7 @@ public class UsuarioService {
 	private UsuarioRepository usuarioRepository;
 	
 	@Autowired
-	private UsuarioResource usuarioResource;
+	private PerfilRepository perfilRepository;
 	
 	@Autowired
 	private BCryptPasswordEncoder pe;
@@ -37,18 +33,20 @@ public class UsuarioService {
 	}*/
 
 	public Usuario find(Integer id) {
-		Optional<Usuario> obj = usuarioRepository.findById(id);
-		return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado! Id: " + id));
+		Usuario obj = usuarioRepository.findById(id).get();
+		//return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado! Id: " + id));
+		return obj;
 	}
 
 	public Usuario fromDTO(@Valid UsuarioDTO objDTO) {
-		return new Usuario(objDTO.getId(), objDTO.getNomeUsuario(), pe.encode(objDTO.getSenha()), objDTO.getEmail(), objDTO.getPerfil());
+		return new Usuario(objDTO.getId(), objDTO.getNomeUsuario(), objDTO.getSenha(), objDTO.getEmail(), objDTO.getPerfil());
 	}
 
 	public UsuarioDTO insert(UsuarioDTO usuarioDTO) {
-		Usuario usuario = usuarioDTO.to();
-		usuarioRepository.save(usuario);
-		return UsuarioDTO.from(usuario);
+		var usuario = usuarioDTO.to();
+		perfilRepository.save(usuario.getPerfil());
+		var usuarioSalvo = usuarioRepository.save(usuario);
+		return UsuarioDTO.from(usuarioSalvo);
 	}
 
 	public Usuario save(Usuario usuario) {
@@ -59,7 +57,7 @@ public class UsuarioService {
 		usuario.setId(novoUsuario.getId());
 		usuario.setNomeUsuario(novoUsuario.getNomeUsuario());
 		usuario.setEmail(novoUsuario.getEmail());
-		usuario.setSenha(novoUsuario.getSenha());
+		usuario.setSenha(pe.encode(novoUsuario.getSenha()));
 	}
 
 	public Usuario update(Usuario usuario) {

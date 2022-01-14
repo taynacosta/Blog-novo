@@ -45,10 +45,19 @@ public class UsuarioResource {
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	@PostMapping
 	public ResponseEntity<Void> insert(@Valid @RequestBody UsuarioDTO usuarioDTO){
-		usuarioDTO = service.insert(usuarioDTO);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(usuarioDTO.getId()).toUri();
+		var usuarioDto = service.insert(usuarioDTO);
+		//service.insert(usuarioDTO);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(usuarioDto.getId()).toUri();
 		return ResponseEntity.created(uri).build();
-		//{ "nomeUsuario": "sobre2","email" :"joaozinho@gmail.com"} mensagem de erro funcionando
+		/*{ "nomeUsuario": "Tayna", "senha" :"123dgfdg", "email": "taynazinha@gmail.com.br", "perfil": {
+	        "statusCivil": "NAMORANDO",
+	        "genero": "FEMININO",
+	        "idade": "35",
+	        "resumo": "resumlkjljiljo sobre o meu perfil",
+	        "legal": 9.0,
+	        "confiavel": 10.0,
+	        "sexy": 10.0
+	    }}*/
 	}
 	
 	@PreAuthorize("hasAnyRole('ADMIN')")
@@ -57,6 +66,7 @@ public class UsuarioResource {
 	    Usuario usuario = service.fromDTO(usuarioDTO);
 	    usuario.setId(id);
 	    service.update(usuario);
+	   // usuario.addTipoAut(TipoAutorizacao.CLIENTE);
 	    return ResponseEntity.noContent().build();
 	}
 
