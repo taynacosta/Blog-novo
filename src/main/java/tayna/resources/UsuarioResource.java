@@ -9,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -56,11 +58,17 @@ public class UsuarioResource {
 	
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	@PutMapping("{id}")
-	public ResponseEntity<Object> putUsuario(@PathVariable Integer id, @RequestBody UsuarioDTO usuarioDTO) {
-	    Usuario usuario = service.fromDTO(usuarioDTO);
-	    usuario.setId(id);
-	    service.update(usuario);
-	    return ResponseEntity.noContent().build();
+	public ResponseEntity<Object> putUsuario(@PathVariable Integer id, @RequestBody UsuarioDTO usuarioDTO, @AuthenticationPrincipal UserDetails logado) {
+		Usuario usuarioLogado = service.find(id);
+		if(usuarioLogado.getNomeUsuario().equals(logado.getUsername())) {
+		    Usuario usuario = service.fromDTO(usuarioDTO);
+		    usuario.setId(id);
+		    service.update(usuario);
+		    return ResponseEntity.noContent().build();
+		}
+		else {
+			return ResponseEntity.badRequest().body("Usuario só pode editar o seu perfil" );
+		}
 	}
 
 	@PreAuthorize("hasAnyRole('ADMIN')")
