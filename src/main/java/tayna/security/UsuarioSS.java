@@ -41,10 +41,18 @@ public class UsuarioSS implements UserDetails {
 	public String getPassword() {
 		return senha;
 	}
-
+	
 	@Override
 	public String getUsername() {
 		return email;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public void setSenha(String senha) {

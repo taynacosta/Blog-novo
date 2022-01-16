@@ -50,13 +50,7 @@ public class UsuarioResource {
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(usuarioDto.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 		/*{ "nomeUsuario": "Tayna", "senha" :"123dgfdg", "email": "taynazinha@gmail.com.br", "perfil": {
-	        "statusCivil": "NAMORANDO",
-	        "genero": "FEMININO",
-	        "idade": "35",
-	        "resumo": "resumlkjljiljo sobre o meu perfil",
-	        "legal": 9.0,
-	        "confiavel": 10.0,
-	        "sexy": 10.0
+	        "statusCivil": "NAMORANDO", "genero": "FEMININO", "idade": "35", "resumo": "resumlkjljiljo sobre o meu perfil",  "legal": 9.0,   "confiavel": 10.0,     "sexy": 10.0
 	    }}*/
 	}
 	
@@ -66,7 +60,6 @@ public class UsuarioResource {
 	    Usuario usuario = service.fromDTO(usuarioDTO);
 	    usuario.setId(id);
 	    service.update(usuario);
-	   // usuario.addTipoAut(TipoAutorizacao.CLIENTE);
 	    return ResponseEntity.noContent().build();
 	}
 

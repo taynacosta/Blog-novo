@@ -53,17 +53,14 @@ public class UsuarioService {
 		return usuarioRepository.save(usuario);
 	}
 
-	public void updateDate(Usuario usuario, Usuario novoUsuario) {
-		usuario.setId(novoUsuario.getId());
-		usuario.setNomeUsuario(novoUsuario.getNomeUsuario());
-		usuario.setEmail(novoUsuario.getEmail());
-		usuario.setSenha(pe.encode(novoUsuario.getSenha()));
-	}
-
 	public Usuario update(Usuario usuario) {
-		Usuario novoUsuario = find(usuario.getId());
-		updateDate(novoUsuario, usuario);
-		return usuarioRepository.save(novoUsuario);
+		Usuario usuarioAntigo = find(usuario.getId());
+		usuarioAntigo.setId(usuario.getId());
+		usuario.setNomeUsuario(usuarioAntigo.getNomeUsuario());
+		usuarioAntigo.setEmail(usuario.getEmail());
+		usuarioAntigo.setSenha(pe.encode(usuario.getSenha()));
+		perfilRepository.save(usuario.getPerfil());
+		return usuarioRepository.save(usuario);
 	}
 
 	public void delete(Integer id) {
